@@ -59,7 +59,7 @@ const Auth = () => {
             }`}
           >
             <h2 className="text-3xl font-bold mb-4 text-center">
-              Login to <span className="text-secondary">BhuGoal</span>
+              Login to <span className="text-secondary">RedLife</span>
             </h2>
             <LoginForm />
           </div>
@@ -73,7 +73,7 @@ const Auth = () => {
             }`}
           >
             <h2 className="text-3xl font-bold mb-4 text-center">
-              Welcome to <span className="text-secondary">BhuGoal</span>
+              Welcome to <span className="text-secondary">RedLife</span>
             </h2>
             <RegisterForm />
           </div>

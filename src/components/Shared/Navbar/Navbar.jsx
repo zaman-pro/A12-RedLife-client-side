@@ -9,6 +9,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Tooltip } from "react-tooltip";
 import { RiHome4Line } from "react-icons/ri";
 import useAuth from "../../../hooks/useAuth";
+import { IoMoonOutline, IoSunnyOutline } from "react-icons/io5";
 
 const Navbar = () => {
   const location = useLocation();
@@ -90,7 +91,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar h-16 bg-base-100 shadow-md fixed z-50 border border-secondary/30 top-0 left-1/2 -translate-x-1/2 rounded-md px-4 lg:px-5">
+    <div className="navbar h-16 bg-base-100 fixed z-50 top-0 left-1/2 -translate-x-1/2 rounded-md px-4 lg:px-5 max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-2">
       <div className="navbar-start">
         <div className="relative md:hidden" ref={menuRef}>
           <button
@@ -158,14 +159,14 @@ const Navbar = () => {
 
       <div className="navbar-end flex items-center gap-3">
         {/* theme toggle button */}
-        <input
-          name="theme-btn"
-          type="checkbox"
-          onChange={handleThemeChange}
-          defaultChecked={localStorage.getItem("theme") === "dark"}
-          className="toggle toggle-secondary"
-          aria-label="toggle theme"
-        />
+        <label className="swap swap-rotate">
+          <input type="checkbox" onChange={handleThemeChange} />
+
+          <IoSunnyOutline size={28} className="swap-off fill-current" />
+
+          <IoMoonOutline size={28} className="swap-on fill-current" />
+        </label>
+
         {/* Avatar with dropdown */}
         {user ? (
           <>
@@ -205,36 +206,6 @@ const Navbar = () => {
                       mass: 0.8,
                     }}
                   >
-                    <li>
-                      <NavLink
-                        className="font-medium"
-                        to="/profile"
-                        onClick={() => setIsDropdownOpen(false)}
-                      >
-                        Profile
-                      </NavLink>
-                    </li>
-
-                    <li>
-                      <NavLink
-                        className="font-medium"
-                        to="/my-requests"
-                        onClick={() => setIsDropdownOpen(false)}
-                      >
-                        My Requests
-                      </NavLink>
-                    </li>
-
-                    <li>
-                      <NavLink
-                        className="font-medium"
-                        to="/create-request"
-                        onClick={() => setIsDropdownOpen(false)}
-                      >
-                        Create Request
-                      </NavLink>
-                    </li>
-
                     <li>
                       <NavLink
                         className="font-medium"
