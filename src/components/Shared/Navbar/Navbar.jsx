@@ -251,12 +251,13 @@ const Navbar = () => {
               >
                 Login
               </Link>
-              <Link
+
+              {/* <Link
                 to="/auth?mode=register"
                 className="btn btn-outline btn-secondary hidden md:flex"
               >
                 Register
-              </Link>
+              </Link> */}
             </div>
           )
         )}

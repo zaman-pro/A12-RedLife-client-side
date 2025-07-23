@@ -1,10 +1,11 @@
 import React from "react";
 import toast from "react-hot-toast";
+import Banner from "./Banner/Banner";
 
 const Home = () => {
   return (
     <div>
-      <h1>This is RedLife Home</h1>
+      <Banner />
     </div>
   );
 };
