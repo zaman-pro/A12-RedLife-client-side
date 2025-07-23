@@ -22,10 +22,7 @@ const Banner = () => {
             >
               Join As a Donor
             </Link>
-            <Link
-              to="/search-donor"
-              className="btn btn-outline text-lg text-blood"
-            >
+            <Link to="/search-donor" className="btn btn-outline text-lg">
               Search Donors
             </Link>
           </div>
