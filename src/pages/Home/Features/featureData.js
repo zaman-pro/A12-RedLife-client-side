@@ -1,4 +1,3 @@
-// components/Features/featureData.js
 import {
   FaTint,
   FaUsers,
