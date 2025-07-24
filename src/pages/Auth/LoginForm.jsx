@@ -1,23 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaEye, FaEyeSlash, FaFacebook, FaGithub } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, useLocation } from "react-router";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 
 const LoginForm = () => {
-  const { user, login, googleLogin } = useAuth();
+  const { login, googleLogin } = useAuth();
 
   const [ShowPassword, setShowPassword] = useState(false);
 
   const location = useLocation();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user) {
-      navigate(`${location.state ? location.state : "/"}`);
-    }
-  }, [user, navigate, location.state]);
 
   const handleLogin = (e) => {
     e.preventDefault();

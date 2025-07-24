@@ -1,135 +1,268 @@
 import React, { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash, FaFacebook, FaGithub } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, useLocation } from "react-router";
 import toast from "react-hot-toast";
+import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
+import axios from "axios";
+import { imageUpload, saveUserInDb } from "../../api/utils";
+
+const PasswordToggle = ({ showPassword, onClick }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    aria-label={showPassword ? "Hide password" : "Show password"}
+    className="hover:bg-accent/20 rounded-full p-1.5 text-secondary absolute right-3 top-1/2 -translate-y-1/2 transition-colors duration-300 ease-in-out"
+  >
+    {showPassword ? <FaEyeSlash /> : <FaEye />}
+  </button>
+);
 
 const RegisterForm = () => {
-  const { user, register, googleLogin, passwordRegex, updateUser, setUser } =
-    useAuth();
+  const {
+    register: registerUser,
+    googleLogin,
+    passwordRegex,
+    updateUser,
+    setUser,
+  } = useAuth();
 
-  const [ShowPassword, setShowPassword] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
+  const [districts, setDistricts] = useState([]);
+  const [upazilas, setUpazilas] = useState([]);
   const location = useLocation();
-  const navigate = useNavigate();
+  const DEFAULT_AVATAR = "https://i.ibb.co/Q3bDs8Rx/test-avatar-2.png";
+  const [avatarPreview, setAvatarPreview] = useState(DEFAULT_AVATAR);
+  const [profilePic, setProfilePic] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm();
+
+  const password = watch("password");
 
   useEffect(() => {
-    if (user) {
-      navigate(`${location.state ? location.state : "/"}`);
+    const loadGeoData = async () => {
+      const districtData = await axios("/districts.json");
+      const upazilaData = await axios("/upazilas.json");
+      setDistricts(districtData.data);
+      setUpazilas(upazilaData.data);
+    };
+    loadGeoData();
+  }, []);
+
+  const handleImageUpload = async (e) => {
+    const imageFile = e.target.files[0];
+    if (!imageFile) return;
+
+    try {
+      const url = await imageUpload(imageFile);
+      if (!url) throw new Error("Invalid image response");
+
+      setProfilePic(url);
+      setAvatarPreview(url);
+    } catch (error) {
+      console.error("Image upload failed:", error);
+      toast.error("Image upload failed. Try again.");
+      setAvatarPreview(DEFAULT_AVATAR);
     }
-  }, [user, navigate, location.state]);
+  };
 
-  const handleRegister = (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
+    if (!profilePic) {
+      return toast.error("Please upload a profile image.", {
+        id: "imageError",
+      });
+    }
 
-    const form = e.target;
-    const photo = form.photo.value;
-    const name = form.name.value;
-    const email = form.email.value;
-    const password = form.password.value;
+    const { name, email, password, bloodGroup, district, upazila } = data;
 
     if (!passwordRegex.test(password)) {
-      toast.dismiss();
       return toast.error("6+ letters with upper, lower & special characters", {
         id: "password-error",
       });
     }
 
-    // Show loading toast
-    const toastId = "registerToast";
-    toast.dismiss();
-    toast.loading("Creating account", { id: toastId });
+    try {
+      await toast.promise(
+        async () => {
+          const res = await registerUser(email, password);
+          const createdUser = res.user;
 
-    register(email, password)
-      .then((res) => {
-        const user = res.user;
-        updateUser({ displayName: name, photoURL: photo })
-          .then(() => {
-            setUser({ ...user, displayName: name, photoURL: photo });
+          await updateUser({ displayName: name, photoURL: profilePic });
+          setUser({ ...createdUser, displayName: name, photoURL: profilePic });
 
-            toast.success("Account created successfully", {
-              id: toastId,
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-            setUser(user);
-
-            toast.error("Profile update failed. Please try again.", {
-              id: toastId,
-            });
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-
-        toast.error("Unable to create account", {
-          id: toastId,
-        });
-      });
+          const userData = {
+            name,
+            email,
+            photo: profilePic,
+            bloodGroup,
+            district,
+            upazila,
+          };
+          await saveUserInDb(userData);
+        },
+        {
+          loading: "Creating account...",
+          success: "Account created successfully!",
+          error: "Something went wrong. Please try again.",
+        }
+      );
+    } catch (err) {
+      console.error("Registration Error:", err);
+      toast.error(err.message || "Registration failed.");
+    }
   };
 
-  const handleGoogleLogin = () => {
-    googleLogin()
-      .then(() => {
-        toast.success("Google login successful");
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Google login failed");
-      });
-  };
-  const handleGithubLogin = () => {};
-  const handleFacebookLogin = () => {};
   return (
-    <form onSubmit={handleRegister} className="card-body p-0">
+    <form onSubmit={handleSubmit(onSubmit)} className="card-body p-0">
       <fieldset className="fieldset text-sm">
-        <label className="label font-semibold">Photo URL</label>
+        {/* Email */}
+        <label className="label font-semibold">Email</label>
         <input
-          name="photo"
-          type="text"
+          type="email"
           className="input w-full focus:outline-none"
-          placeholder="Enter your photo url"
-          required
+          placeholder="Enter your email"
+          {...register("email", { required: "Email is required" })}
         />
+        {errors.email && (
+          <p className="text-red-500 text-xs">{errors.email.message}</p>
+        )}
 
+        {/* Name */}
         <label className="label font-semibold">Name</label>
         <input
-          name="name"
           type="text"
           className="input w-full focus:outline-none"
           placeholder="Enter your name"
-          required
+          {...register("name", { required: "Name is required" })}
         />
+        {errors.name && (
+          <p className="text-red-500 text-xs">{errors.name.message}</p>
+        )}
 
-        <label className="label font-semibold">Email</label>
-        <input
-          name="email"
-          type="email"
-          className="input w-full focus:outline-none"
-          placeholder="Enter your email address"
-          required
-        />
+        {/* Photo */}
+        <label className="label font-semibold">Photo</label>
+        <div className="flex gap-2">
+          <input
+            type="file"
+            accept="image/*"
+            {...register("photo")}
+            onChange={(e) => {
+              handleImageUpload(e);
+              setValue("photo", e.target.files[0]);
+            }}
+            className="file-input w-full focus:outline-none"
+          />
+          {errors.photo && (
+            <p className="text-red-500 text-xs">{errors.photo.message}</p>
+          )}
+          <img
+            src={avatarPreview}
+            alt="Profile"
+            className="w-10 h-10 rounded-full object-cover"
+          />
+        </div>
 
+        {/* Blood Group */}
+        <label className="label font-semibold">Blood Group</label>
+        <select
+          className="select w-full focus:outline-none"
+          {...register("bloodGroup", { required: "Blood group is required" })}
+        >
+          <option value="">Select Group</option>
+          {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map((group) => (
+            <option key={group} value={group}>
+              {group}
+            </option>
+          ))}
+        </select>
+        {errors.bloodGroup && (
+          <p className="text-red-500 text-xs">{errors.bloodGroup.message}</p>
+        )}
+
+        {/* District */}
+        <label className="label font-semibold">District</label>
+        <select
+          className="select w-full focus:outline-none"
+          {...register("district", { required: "District is required" })}
+        >
+          <option value="">Select District</option>
+          {districts.map((d) => (
+            <option key={d.id} value={d.name}>
+              {d.name}
+            </option>
+          ))}
+        </select>
+        {errors.district && (
+          <p className="text-red-500 text-xs">{errors.district.message}</p>
+        )}
+
+        {/* Upazila */}
+        <label className="label font-semibold">Upazila</label>
+        <select
+          className="select w-full focus:outline-none"
+          {...register("upazila", { required: "Upazila is required" })}
+        >
+          <option value="">Select Upazila</option>
+          {upazilas.map((u) => (
+            <option key={u.id} value={u.name}>
+              {u.name}
+            </option>
+          ))}
+        </select>
+        {errors.upazila && (
+          <p className="text-red-500 text-xs">{errors.upazila.message}</p>
+        )}
+
+        {/* Password */}
         <label className="label font-semibold">Password</label>
         <div className="relative">
           <input
-            name="password"
-            type={ShowPassword ? "text" : "password"}
+            type={showPassword ? "text" : "password"}
             className="input w-full focus:outline-none"
             placeholder="Enter your password"
-            required
+            {...register("password", { required: "Password is required" })}
           />
-          <button
-            type="button"
-            onClick={() => setShowPassword(!ShowPassword)}
-            className="hover:bg-accent/20 rounded-full p-1.5 text-base text-secondary absolute right-3 top-1/2 -translate-y-1/2 transition-colors duration-300 ease-in-out"
-          >
-            {ShowPassword ? <FaEyeSlash /> : <FaEye />}
-          </button>
+          <PasswordToggle
+            showPassword={showPassword}
+            onClick={() => setShowPassword(!showPassword)}
+          />
         </div>
+        {errors.password && (
+          <p className="text-red-500 text-xs">{errors.password.message}</p>
+        )}
 
+        {/* Confirm Password */}
+        <label className="label font-semibold">Confirm Password</label>
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            className="input w-full focus:outline-none"
+            placeholder="Confirm your password"
+            {...register("confirmPassword", {
+              required: "Please confirm password",
+              validate: (value) =>
+                value === password || "Passwords do not match",
+            })}
+          />
+          <PasswordToggle
+            showPassword={showPassword}
+            onClick={() => setShowPassword(!showPassword)}
+          />
+        </div>
+        {errors.confirmPassword && (
+          <p className="text-red-500 text-xs">
+            {errors.confirmPassword.message}
+          </p>
+        )}
+
+        {/* Submit */}
         <button
           type="submit"
           className="btn mt-4 bg-secondary/90 text-white hover:bg-accent"
@@ -137,37 +270,25 @@ const RegisterForm = () => {
           Register
         </button>
 
+        {/* Divider & Social Logins */}
         <div className="divider text-xs text-primary/60 my-1">
           or continue with
         </div>
-
         <div className="flex justify-around gap-2">
-          <button
-            type="button"
-            onClick={handleGithubLogin}
-            className="btn bg-none border-[#e5e5e5] flex-1"
-          >
-            <FaGithub size={20} />
-          </button>
-
-          <button
-            type="button"
-            onClick={handleGoogleLogin}
-            className="btn bg-none border-[#e5e5e5] flex-1"
-          >
-            <FcGoogle size={20} />
-          </button>
-
-          <button
-            type="button"
-            onClick={handleFacebookLogin}
-            className="btn bg-none border-[#e5e5e5] flex-1"
-          >
-            <FaFacebook size={20} />
-          </button>
+          {[FaGithub, FcGoogle, FaFacebook].map((Icon, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => toast("Login method coming soon")}
+              className="btn bg-none border-[#e5e5e5] flex-1"
+            >
+              <Icon size={20} />
+            </button>
+          ))}
         </div>
       </fieldset>
-      <p className="text-xs font-medium text-center text-secondary/90">
+
+      <p className="text-xs font-medium text-center text-secondary/90 mt-2">
         Already have an account?{" "}
         <Link
           className="link link-hover text-primary"

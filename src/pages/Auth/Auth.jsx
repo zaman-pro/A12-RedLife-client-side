@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
-import { Link, useLocation, useSearchParams } from "react-router";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router";
+import useAuth from "../../hooks/useAuth";
 
 const Auth = () => {
+  const { user } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
   const [searchParams] = useSearchParams();
   const location = useLocation();
+  const navigate = useNavigate();
 
   //   routes mode check
   useEffect(() => {
@@ -18,9 +21,15 @@ const Auth = () => {
     }
   }, [searchParams]);
 
+  useEffect(() => {
+    if (user) {
+      navigate(`${location.state ? location.state : "/"}`);
+    }
+  }, [user, navigate, location.state]);
+
   return (
     <div className="md:min-h-screen flex justify-center md:items-center">
-      <div className="relative rounded-lg w-full max-w-sm shadow-md p-4 overflow-hidden min-h-[640px]">
+      <div className="relative rounded-lg w-full max-w-md shadow-md p-4 overflow-hidden min-h-[900px]">
         {/* tab toggle with sliding bg */}
         <div className="relative flex mb-6 bg-primary/20 rounded overflow-hidden">
           {/* sliding bg */}
