@@ -69,6 +69,9 @@ const Navbar = () => {
   }, [isOpen]);
 
   const handleThemeChange = (e) => {
+    // console.log(e);
+    if (!e.isTrusted) return;
+
     const newTheme = e.target.checked ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", newTheme);
     localStorage.setItem("theme", newTheme);
@@ -160,7 +163,11 @@ const Navbar = () => {
       <div className="navbar-end flex items-center gap-3">
         {/* theme toggle button */}
         <label className="swap swap-rotate">
-          <input type="checkbox" onChange={handleThemeChange} />
+          <input
+            type="checkbox"
+            onChange={handleThemeChange}
+            checked={theme === "dark"}
+          />
 
           <IoSunnyOutline size={28} className="swap-off fill-current" />
 
@@ -219,7 +226,7 @@ const Navbar = () => {
                     <li>
                       <button
                         onClick={handleLogout}
-                        className="btn btn-xs btn-secondary rounded-full"
+                        className="btn btn-xs btn-secondary rounded"
                       >
                         Logout
                       </button>

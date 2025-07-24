@@ -31,6 +31,8 @@ const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [districts, setDistricts] = useState([]);
   const [upazilas, setUpazilas] = useState([]);
+  const [filteredUpazilas, setFilteredUpazilas] = useState([]);
+
   const location = useLocation();
   const DEFAULT_AVATAR = "https://i.ibb.co/Q3bDs8Rx/test-avatar-2.png";
   const [avatarPreview, setAvatarPreview] = useState(DEFAULT_AVATAR);
@@ -45,16 +47,43 @@ const RegisterForm = () => {
   } = useForm();
 
   const password = watch("password");
+  const selectedDistrictId = watch("district"); // watch selected district id
 
   useEffect(() => {
     const loadGeoData = async () => {
-      const districtData = await axios("/districts.json");
-      const upazilaData = await axios("/upazilas.json");
-      setDistricts(districtData.data);
-      setUpazilas(upazilaData.data);
+      try {
+        const districtData = await axios("/districts.json");
+        const upazilaData = await axios("/upazilas.json");
+        setDistricts(districtData.data);
+        setUpazilas(upazilaData.data);
+      } catch (error) {
+        console.error("Geo data load error:", error);
+        toast.error("Failed to load district/upazila data");
+      }
     };
     loadGeoData();
   }, []);
+
+  // Safer filter effect for upazilas when district changes
+  useEffect(() => {
+    if (!selectedDistrictId) {
+      setFilteredUpazilas([]);
+      setValue("upazila", ""); // reset upazila selection if district cleared
+      return;
+    }
+
+    const filtered = upazilas.filter(
+      (u) => u.district_id === selectedDistrictId.toString()
+    );
+
+    setFilteredUpazilas(filtered);
+
+    // If current selected upazila not in filtered list, reset it
+    setValue("upazila", (prev) => {
+      if (!filtered.find((u) => u.name === prev)) return "";
+      return prev;
+    });
+  }, [selectedDistrictId, upazilas, setValue]);
 
   const handleImageUpload = async (e) => {
     const imageFile = e.target.files[0];
@@ -80,9 +109,13 @@ const RegisterForm = () => {
       });
     }
 
-    const { name, email, password, bloodGroup, district, upazila } = data;
+    // district id থেকে name বের করা
+    const selectedDistrict = districts.find(
+      (d) => d.id.toString() === data.district
+    );
+    const districtName = selectedDistrict ? selectedDistrict.name : "";
 
-    if (!passwordRegex.test(password)) {
+    if (!passwordRegex.test(data.password)) {
       return toast.error("6+ letters with upper, lower & special characters", {
         id: "password-error",
       });
@@ -91,19 +124,23 @@ const RegisterForm = () => {
     try {
       await toast.promise(
         async () => {
-          const res = await registerUser(email, password);
+          const res = await registerUser(data.email, data.password);
           const createdUser = res.user;
 
-          await updateUser({ displayName: name, photoURL: profilePic });
-          setUser({ ...createdUser, displayName: name, photoURL: profilePic });
+          await updateUser({ displayName: data.name, photoURL: profilePic });
+          setUser({
+            ...createdUser,
+            displayName: data.name,
+            photoURL: profilePic,
+          });
 
           const userData = {
-            name,
-            email,
+            name: data.name,
+            email: data.email,
             photo: profilePic,
-            bloodGroup,
-            district,
-            upazila,
+            bloodGroup: data.bloodGroup,
+            district: districtName, // নাম পাঠাচ্ছেন
+            upazila: data.upazila,
           };
           await saveUserInDb(userData);
         },
@@ -194,7 +231,7 @@ const RegisterForm = () => {
         >
           <option value="">Select District</option>
           {districts.map((d) => (
-            <option key={d.id} value={d.name}>
+            <option key={d.id} value={d.id}>
               {d.name}
             </option>
           ))}
@@ -208,9 +245,10 @@ const RegisterForm = () => {
         <select
           className="select w-full focus:outline-none"
           {...register("upazila", { required: "Upazila is required" })}
+          disabled={!selectedDistrictId}
         >
           <option value="">Select Upazila</option>
-          {upazilas.map((u) => (
+          {filteredUpazilas.map((u) => (
             <option key={u.id} value={u.name}>
               {u.name}
             </option>
