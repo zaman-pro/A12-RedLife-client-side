@@ -25,7 +25,7 @@ const Footer = () => {
           </div>
 
           {/* Useful Links */}
-          <div className="flex justify-center">
+          <div className="flex md:justify-center">
             <div>
               <h3 className="text-lg font-bold mb-4">Useful Links</h3>
               <ul>
@@ -54,7 +54,7 @@ const Footer = () => {
           </div>
 
           {/* Social Links */}
-          <div className="flex justify-center">
+          <div className="flex md:justify-center">
             <div>
               <h3 className="text-lg font-bold mb-4">Follow Us</h3>
               <div className="flex space-x-4">
@@ -62,7 +62,7 @@ const Footer = () => {
                   href="https://facebook.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blood text-2xl"
+                  className="text-2xl"
                 >
                   <FaFacebookF />
                 </a>
@@ -70,7 +70,7 @@ const Footer = () => {
                   href="https://twitter.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blood text-2xl"
+                  className="text-2xl"
                 >
                   <FaTwitter />
                 </a>
@@ -78,7 +78,7 @@ const Footer = () => {
                   href="https://instagram.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blood text-2xl"
+                  className="text-2xl"
                 >
                   <FaInstagram />
                 </a>
@@ -86,7 +86,7 @@ const Footer = () => {
                   href="https://linkedin.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blood text-2xl"
+                  className="text-2xl"
                 >
                   <FaLinkedin />
                 </a>

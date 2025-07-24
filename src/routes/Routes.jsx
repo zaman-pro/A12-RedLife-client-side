@@ -12,10 +12,10 @@ export const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
+      {
+        path: "/auth",
+        Component: Auth,
+      },
     ],
-  },
-  {
-    path: "/auth",
-    Component: Auth,
   },
 ]);
