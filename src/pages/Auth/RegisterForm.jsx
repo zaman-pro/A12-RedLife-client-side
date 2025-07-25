@@ -8,17 +8,7 @@ import axios from "axios";
 import { imageUpload, saveUserInDb } from "../../api/utils";
 import SocialLoginButtons from "./SocialLoginButtons";
 import { handleGoogleLogin } from "../../utils/handleGoogleLogin";
-
-const PasswordToggle = ({ showPassword, onClick }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    aria-label={showPassword ? "Hide password" : "Show password"}
-    className="hover:bg-accent/20 rounded-full p-1.5 text-secondary absolute right-3 top-1/2 -translate-y-1/2 transition-colors duration-300 ease-in-out"
-  >
-    {showPassword ? <FaEyeSlash /> : <FaEye />}
-  </button>
-);
+import PasswordToggle from "./PasswordToggle";
 
 const RegisterForm = () => {
   const {
@@ -267,8 +257,9 @@ const RegisterForm = () => {
             placeholder="Enter your password"
             {...register("password", { required: "Password is required" })}
           />
+          {/* password toggle */}
           <PasswordToggle
-            showPassword={showPassword}
+            show={showPassword}
             onClick={() => setShowPassword(!showPassword)}
           />
         </div>
@@ -289,8 +280,9 @@ const RegisterForm = () => {
                 value === password || "Passwords do not match",
             })}
           />
+          {/* password toggle */}
           <PasswordToggle
-            showPassword={showPassword}
+            show={showPassword}
             onClick={() => setShowPassword(!showPassword)}
           />
         </div>

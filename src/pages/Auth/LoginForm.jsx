@@ -7,6 +7,7 @@ import useAuth from "../../hooks/useAuth";
 import { saveUserInDb } from "../../api/utils";
 import SocialLoginButtons from "./SocialLoginButtons";
 import { handleGoogleLogin } from "../../utils/handleGoogleLogin";
+import PasswordToggle from "./PasswordToggle";
 
 const LoginForm = () => {
   const { login, googleLogin } = useAuth();
@@ -70,13 +71,12 @@ const LoginForm = () => {
             placeholder="Enter your password"
             {...register("password", { required: "Password is required" })}
           />
-          <button
-            type="button"
+
+          {/* password toggle */}
+          <PasswordToggle
+            show={showPassword}
             onClick={() => setShowPassword(!showPassword)}
-            className="hover:bg-accent/20 rounded-full p-1.5 text-base text-secondary absolute right-3 top-1/2 -translate-y-1/2 transition-colors duration-300 ease-in-out"
-          >
-            {showPassword ? <FaEyeSlash /> : <FaEye />}
-          </button>
+          />
         </div>
         {errors.password && (
           <p className="text-red-500 text-xs">{errors.password.message}</p>
