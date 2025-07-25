@@ -109,7 +109,6 @@ const RegisterForm = () => {
       });
     }
 
-    // district id থেকে name বের করা
     const selectedDistrict = districts.find(
       (d) => d.id.toString() === data.district
     );
@@ -139,7 +138,7 @@ const RegisterForm = () => {
             email: data.email,
             photo: profilePic,
             bloodGroup: data.bloodGroup,
-            district: districtName, // নাম পাঠাচ্ছেন
+            district: districtName,
             upazila: data.upazila,
           };
           await saveUserInDb(userData);
