@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { FaEye, FaEyeSlash, FaFacebook, FaGithub } from "react-icons/fa6";
-import { FcGoogle } from "react-icons/fc";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { Link, useLocation } from "react-router";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import { saveUserInDb } from "../../api/utils";
+import SocialLoginButtons from "./SocialLoginButtons";
+import { handleGoogleLogin } from "../../utils/handleGoogleLogin";
 
 const LoginForm = () => {
   const { login, googleLogin } = useAuth();
@@ -28,7 +29,7 @@ const LoginForm = () => {
           const userData = {
             name: loggedInUser?.displayName,
             email: loggedInUser?.email,
-            image: loggedInUser?.photoURL,
+            photo: loggedInUser?.photoURL,
           };
 
           await saveUserInDb(userData);
@@ -44,12 +45,6 @@ const LoginForm = () => {
       toast.error(err.message || "Unexpected login error.");
     }
   };
-
-  const handleGoogleLogin = () => {
-    // Optional: googleLogin().then().catch() here
-  };
-  const handleGithubLogin = () => {};
-  const handleFacebookLogin = () => {};
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="card-body p-0">
@@ -110,31 +105,9 @@ const LoginForm = () => {
         </div>
 
         {/* Social logins */}
-        <div className="flex justify-around gap-2">
-          <button
-            type="button"
-            onClick={handleGithubLogin}
-            className="btn bg-none border-[#e5e5e5] flex-1"
-          >
-            <FaGithub size={20} />
-          </button>
-
-          <button
-            type="button"
-            onClick={handleGoogleLogin}
-            className="btn bg-none border-[#e5e5e5] flex-1"
-          >
-            <FcGoogle size={20} />
-          </button>
-
-          <button
-            type="button"
-            onClick={handleFacebookLogin}
-            className="btn bg-none border-[#e5e5e5] flex-1"
-          >
-            <FaFacebook size={20} />
-          </button>
-        </div>
+        <SocialLoginButtons
+          onGoogleLogin={() => handleGoogleLogin(googleLogin)}
+        />
       </fieldset>
 
       {/* Register Redirect */}

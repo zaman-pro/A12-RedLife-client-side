@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { FaEye, FaEyeSlash, FaFacebook, FaGithub } from "react-icons/fa6";
-import { FcGoogle } from "react-icons/fc";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { Link, useLocation } from "react-router";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import { imageUpload, saveUserInDb } from "../../api/utils";
+import SocialLoginButtons from "./SocialLoginButtons";
+import { handleGoogleLogin } from "../../utils/handleGoogleLogin";
 
 const PasswordToggle = ({ showPassword, onClick }) => (
   <button
@@ -307,22 +308,15 @@ const RegisterForm = () => {
           Register
         </button>
 
-        {/* Divider & Social Logins */}
+        {/* Divider */}
         <div className="divider text-xs text-primary/60 my-1">
           or continue with
         </div>
-        <div className="flex justify-around gap-2">
-          {[FaGithub, FcGoogle, FaFacebook].map((Icon, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => toast("Login method coming soon")}
-              className="btn bg-none border-[#e5e5e5] flex-1"
-            >
-              <Icon size={20} />
-            </button>
-          ))}
-        </div>
+
+        {/* Social logins */}
+        <SocialLoginButtons
+          onGoogleLogin={() => handleGoogleLogin(googleLogin)}
+        />
       </fieldset>
 
       <p className="text-xs font-medium text-center text-secondary/90 mt-2">
