@@ -23,3 +23,7 @@ th {
   text-align: center;
   vertical-align: middle;
 }
+
+.react-datepicker-wrapper {
+  width: 100% !important;
+}
