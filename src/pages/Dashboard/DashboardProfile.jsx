@@ -7,6 +7,7 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 import useAuth from "../../hooks/useAuth";
 import { imageUpload } from "../../api/utils";
 import axios from "axios";
+import Loading from "../../components/Shared/Loading/Loading";
 
 const DashboardProfile = () => {
   const { user } = useAuth();
@@ -20,6 +21,7 @@ const DashboardProfile = () => {
   const [filteredUpazilas, setFilteredUpazilas] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [avatarPreview, setAvatarPreview] = useState(DEFAULT_AVATAR);
+  const [loading, setLoading] = useState(true);
 
   const {
     register,
@@ -44,8 +46,8 @@ const DashboardProfile = () => {
         setDistricts(districtRes.data);
         setUpazilas(upazilaRes.data);
       } catch (error) {
-        console.error("Geo data load error:", error);
         toast.error("Failed to load location data");
+        console.error("Geo data load error:", error);
       }
     };
     loadGeoData();
@@ -69,7 +71,7 @@ const DashboardProfile = () => {
     }
   }, [selectedDistrict, selectedUpazila, upazilas, setValue]);
 
-  // Load user profile
+  // Load user profile after geo data
   useEffect(() => {
     if (!user?.email || upazilas.length === 0) return;
 
@@ -91,8 +93,10 @@ const DashboardProfile = () => {
             relatedUpazilas.find((u) => u.id === userData.upazila)?.id || "",
         });
       } catch (err) {
-        console.error("User load error:", err);
         toast.error("Failed to load profile");
+        console.error("User load error:", err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -109,8 +113,8 @@ const DashboardProfile = () => {
       setValue("photo", url);
       toast.success("Avatar updated");
     } catch (err) {
-      console.error(err);
       toast.error("Image upload failed");
+      console.error(err);
     }
   };
 
@@ -123,10 +127,12 @@ const DashboardProfile = () => {
       setIsEditing(false);
       navigate("/dashboard/profile");
     } catch (err) {
-      console.error(err);
       toast.error("Update failed");
+      console.error(err);
     }
   };
+
+  if (loading) return <Loading />;
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-base-200">
@@ -169,6 +175,7 @@ const DashboardProfile = () => {
         </div>
 
         <form className="mt-6 space-y-4">
+          {/* Name */}
           <div>
             <label className="label mb-2">Name</label>
             <input
@@ -182,6 +189,7 @@ const DashboardProfile = () => {
             )}
           </div>
 
+          {/* Email */}
           <div>
             <label className="label mb-2">Email</label>
             <input
@@ -192,6 +200,7 @@ const DashboardProfile = () => {
             />
           </div>
 
+          {/* Blood Group & Phone */}
           <div className="flex flex-col lg:flex-row gap-6">
             <div className="w-full">
               <label className="label mb-2">Blood Group</label>
@@ -228,6 +237,7 @@ const DashboardProfile = () => {
             </div>
           </div>
 
+          {/* District */}
           <div className="flex flex-col lg:flex-row gap-6">
             <div className="w-full">
               <label className="label mb-2">District</label>
@@ -250,6 +260,7 @@ const DashboardProfile = () => {
               )}
             </div>
 
+            {/* Upazila */}
             <div className="w-full">
               <label className="label mb-2">Upazila</label>
               <select
