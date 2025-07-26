@@ -37,45 +37,46 @@ const RegisterForm = () => {
   } = useForm();
 
   const password = watch("password");
-  const selectedDistrictId = watch("district"); // watch selected district id
+  const selectedDistrict = watch("district");
+  const selectedUpazila = watch("upazila");
 
+  // Load districts and upazilas
   useEffect(() => {
     const loadGeoData = async () => {
       try {
-        const districtData = await axios("/districts.json");
-        const upazilaData = await axios("/upazilas.json");
-        setDistricts(districtData.data);
-        setUpazilas(upazilaData.data);
+        const [districtRes, upazilaRes] = await Promise.all([
+          axios("/districts.json"),
+          axios("/upazilas.json"),
+        ]);
+        setDistricts(districtRes.data);
+        setUpazilas(upazilaRes.data);
       } catch (error) {
+        toast.error("Failed to load location data");
         console.error("Geo data load error:", error);
-        toast.error("Failed to load district/upazila data");
       }
     };
     loadGeoData();
   }, []);
 
-  // Safer filter effect for upazilas when district changes
+  // Filter upazilas based on selected district
   useEffect(() => {
-    if (!selectedDistrictId) {
+    if (!selectedDistrict) {
       setFilteredUpazilas([]);
-      setValue("upazila", ""); // reset upazila selection if district cleared
+      setValue("upazila", "");
       return;
     }
 
-    const filtered = upazilas.filter(
-      (u) => u.district_id === selectedDistrictId.toString()
+    const related = upazilas.filter(
+      (u) => u.district_id === selectedDistrict.toString()
     );
+    setFilteredUpazilas(related);
 
-    setFilteredUpazilas(filtered);
+    if (!related.find((u) => u.id === selectedUpazila)) {
+      setValue("upazila", "");
+    }
+  }, [selectedDistrict, selectedUpazila, upazilas, setValue]);
 
-    // If current selected upazila not in filtered list, reset it
-    setValue("upazila", (prev) => {
-      if (!filtered.find((u) => u.id.toString() === prev)) return "";
-      return prev;
-    });
-  }, [selectedDistrictId, upazilas, setValue]);
-
-  const handleImageUpload = async (e) => {
+  const handleAvatarUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
@@ -85,10 +86,11 @@ const RegisterForm = () => {
 
       setProfilePic(url);
       setAvatarPreview(url);
+
       toast.success("Avatar uploaded");
-    } catch (error) {
-      console.error("Image upload failed:", error);
-      toast.error("Image upload failed. Try again.");
+    } catch (err) {
+      toast.error("Image upload failed");
+      console.error(err);
       setAvatarPreview(DEFAULT_AVATAR);
     }
   };
@@ -176,7 +178,7 @@ const RegisterForm = () => {
             accept="image/*"
             {...register("photo")}
             onChange={(e) => {
-              handleImageUpload(e);
+              handleAvatarUpload(e);
               setValue("photo", e.target.files[0]);
             }}
             className="file-input w-full focus:outline-none"
@@ -230,7 +232,7 @@ const RegisterForm = () => {
         <select
           className="select w-full focus:outline-none"
           {...register("upazila", { required: "Upazila is required" })}
-          disabled={!selectedDistrictId}
+          disabled={!selectedDistrict}
         >
           <option value="">Select Upazila</option>
           {filteredUpazilas.map((u) => (
