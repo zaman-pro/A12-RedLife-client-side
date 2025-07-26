@@ -8,11 +8,10 @@ import { useNavigate } from "react-router";
 import Loading from "../../components/Shared/Loading/Loading";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import useGeoData from "../../hooks/useGeoData";
 
 const MyDonationRequest = () => {
   const [filter, setFilter] = useState("");
-  const [districts, setDistricts] = useState([]);
-  const [upazilas, setUpazilas] = useState([]);
   const axiosPublic = useAxiosPublic();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -20,21 +19,8 @@ const MyDonationRequest = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemPerPage, setItemPerPage] = useState(3);
 
-  useEffect(() => {
-    const fetchLocationData = async () => {
-      try {
-        const [districtData, upazilaData] = await Promise.all([
-          axios.get("/districts.json"),
-          axios.get("/upazilas.json"),
-        ]);
-        setDistricts(districtData.data);
-        setUpazilas(upazilaData.data);
-      } catch (error) {
-        console.error("Failed to fetch location data", error);
-      }
-    };
-    fetchLocationData();
-  }, []);
+  // Load districts and upazilas
+  const { districts, upazilas } = useGeoData();
 
   useEffect(() => {
     axiosPublic
@@ -74,9 +60,9 @@ const MyDonationRequest = () => {
       });
       toast.success(`Status updated to ${newStatus}`);
       refetch();
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
       toast.error("Failed to update status.");
+      console.log(err);
     }
   };
 
@@ -96,18 +82,17 @@ const MyDonationRequest = () => {
         await axiosPublic.delete(`/donation-request/${id}`);
         toast.success("Donation request deleted.");
         refetch();
-      } catch (error) {
-        console.log(error);
+      } catch (err) {
         toast.error("Failed to delete donation request.");
+        console.log(err);
       }
     }
   };
 
   const getLocation = (districtId, upazilaId) => {
     const district =
-      districts.find((d) => d.id === districtId)?.name || "Unknown District";
-    const upazila =
-      upazilas.find((u) => u.id === upazilaId)?.name || "Unknown Upazila";
+      districts.find((d) => d.id === districtId)?.name || "Unknown";
+    const upazila = upazilas.find((u) => u.id === upazilaId)?.name || "Unknown";
     return `${district}, ${upazila}`;
   };
 
@@ -130,154 +115,156 @@ const MyDonationRequest = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">My Donation Requests</h1>
+    <div className="p-4 max-w-7xl mx-auto">
+      <h1 className="text-4xl font-bold mb-6 text-center">
+        My Donation Requests
+      </h1>
 
-      <div className="mb-4 flex items-center gap-4">
-        <label htmlFor="filter" className="font-medium">
-          Filter by Status:
-        </label>
-        <select
-          id="filter"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          className="select select-bordered"
-        >
-          <option value="">All</option>
-          <option value="pending">Pending</option>
-          <option value="inprogress">In Progress</option>
-          <option value="done">Done</option>
-          <option value="canceled">Canceled</option>
-        </select>
+      {/* Filter + Pagination controls */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        {/* Filter */}
+        <div className="flex items-center gap-2">
+          <label htmlFor="filter" className="font-medium">
+            Filter by Status:
+          </label>
+          <select
+            id="filter"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="select select-bordered select-sm w-44"
+          >
+            <option value="">All</option>
+            <option value="pending">Pending</option>
+            <option value="inprogress">In Progress</option>
+            <option value="done">Done</option>
+            <option value="canceled">Canceled</option>
+          </select>
+        </div>
+
+        {/* Pagination Controls */}
+        <div className="flex items-center flex-wrap gap-2">
+          <label className="font-medium">Items per page:</label>
+          <select
+            value={itemPerPage}
+            onChange={handelItemParPage}
+            className="select select-bordered select-sm w-20"
+          >
+            <option value="3">3</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+          </select>
+
+          <button onClick={handelPrevPage} className="btn btn-sm">
+            Prev
+          </button>
+          {pages.map((page) => (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page + 1)}
+              className={`btn btn-sm ${
+                currentPage === page + 1 ? "btn-primary text-white" : ""
+              }`}
+            >
+              {page + 1}
+            </button>
+          ))}
+          <button onClick={handelNextPage} className="btn btn-sm">
+            Next
+          </button>
+        </div>
       </div>
 
+      {/* Table */}
       {donationRequests.length === 0 ? (
-        <h1>{`You Have No Donation Request in ${filter}`}</h1>
+        <div className="text-center py-10 text-gray-500">
+          <h2 className="text-lg">
+            You have no donation requests in{" "}
+            <span className="font-semibold capitalize">{filter || "any"}</span>{" "}
+            status.
+          </h2>
+        </div>
       ) : (
-        <>
-          <div className="overflow-x-auto">
-            <table className="table-auto w-full border-collapse border border-gray-200">
-              <thead>
-                <tr>
-                  <th className="border px-4 py-2">#</th>
-                  <th className="border px-4 py-2">Recipient Name</th>
-                  <th className="border px-4 py-2">Location</th>
-                  <th className="border px-4 py-2">Donor Name</th>
-                  <th className="border px-4 py-2">Donor Email</th>
-                  <th className="border px-4 py-2">Donation Date</th>
-                  <th className="border px-4 py-2">Donation Time</th>
-                  <th className="border px-4 py-2">Blood Group</th>
-                  <th className="border px-4 py-2">Status</th>
-                  <th className="border px-4 py-2">Actions</th>
+        <div className="overflow-x-auto rounded-lg shadow-md">
+          <table className="table w-full">
+            <thead className="bg-base-200 text-base">
+              <tr>
+                <th>#</th>
+                <th>Recipient</th>
+                <th>Location</th>
+                <th>Donor</th>
+                <th>Email</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Blood</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {donationRequests.map((request, index) => (
+                <tr key={request._id}>
+                  <td>{index + 1}</td>
+                  <td>{request.recipientName}</td>
+                  <td>
+                    {getLocation(
+                      request.recipientDistrict,
+                      request.recipientUpazila
+                    )}
+                  </td>
+                  <td>{request?.donorName || "Pending"}</td>
+                  <td>{request?.donorEmail || "Pending"}</td>
+                  <td>{new Date(request.donationDate).toLocaleDateString()}</td>
+                  <td>{request.donationTime}</td>
+                  <td>{request.bloodGroup}</td>
+                  <td>
+                    {request.donationStatus === "inprogress" ? (
+                      <select
+                        className="select select-bordered select-sm"
+                        value={request.donationStatus}
+                        onChange={(e) =>
+                          handleStatusChange(request._id, e.target.value)
+                        }
+                      >
+                        <option value="inprogress">In Progress</option>
+                        <option value="done">Done</option>
+                        <option value="canceled">Canceled</option>
+                      </select>
+                    ) : (
+                      <span className="capitalize">
+                        {request.donationStatus}
+                      </span>
+                    )}
+                  </td>
+                  <td className="flex gap-2">
+                    <button
+                      className="btn btn-xs btn-info text-white"
+                      onClick={() =>
+                        navigate(`/dashboard/donation-request/${request._id}`)
+                      }
+                    >
+                      <FaEye />
+                    </button>
+                    <button
+                      className="btn btn-xs btn-warning text-white"
+                      onClick={() =>
+                        (window.location.href = `/dashboard/edit-donation-request/${request._id}`)
+                      }
+                    >
+                      <FaEdit />
+                    </button>
+                    <button
+                      className="btn btn-xs btn-error text-white"
+                      onClick={() => handleDelete(request._id)}
+                    >
+                      <FaTrash />
+                    </button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {donationRequests?.map((request, index) => (
-                  <tr key={request._id}>
-                    <td className="border px-4 py-2">{index + 1}</td>
-                    <td className="border px-4 py-2">
-                      {request.recipientName}
-                    </td>
-                    <td className="border px-4 py-2">
-                      {getLocation(
-                        request.recipientDistrict,
-                        request.recipientUpazila
-                      )}
-                    </td>
-                    <td className="border px-4 py-2">
-                      {request?.donorName || "Pending"}
-                    </td>
-                    <td className="border px-4 py-2">
-                      {request?.donorEmail || "Pending"}
-                    </td>
-                    <td className="border px-4 py-2">
-                      {new Date(request.donationDate).toLocaleDateString()}
-                    </td>
-                    <td className="border px-4 py-2">{request.donationTime}</td>
-                    <td className="border px-4 py-2">{request.bloodGroup}</td>
-                    <td className="border px-4 py-2 capitalize">
-                      {request.donationStatus === "inprogress" ? (
-                        <select
-                          className="select select-bordered"
-                          value={request.donationStatus}
-                          onChange={(e) =>
-                            handleStatusChange(request._id, e.target.value)
-                          }
-                        >
-                          <option value="inprogress">In Progress</option>
-                          <option value="done">Done</option>
-                          <option value="canceled">Canceled</option>
-                        </select>
-                      ) : (
-                        request.donationStatus
-                      )}
-                    </td>
-                    <td className="">
-                      <button
-                        className="btn bg-green-800 text-white btn-sm"
-                        onClick={() =>
-                          (window.location.href = `/dashboard/edit-donation-request/${request._id}`)
-                        }
-                      >
-                        <FaEdit />
-                      </button>
-                      <button
-                        className="btn bg-red-500 text-white btn-sm"
-                        onClick={() => handleDelete(request._id)}
-                      >
-                        <FaTrash />
-                      </button>
-                      <button
-                        className="btn btn-sm btn-info text-white"
-                        onClick={() =>
-                          navigate(`/dashboard/donation-request/${request._id}`)
-                        }
-                      >
-                        <FaEye />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="text-center flex justify-center gap-2 pt-8">
-            <button
-              onClick={handelPrevPage}
-              className="btn btn-sm bg-white ring px-6"
-            >
-              Prev
-            </button>
-            {pages?.map((page) => (
-              <button
-                onClick={() => setCurrentPage(page + 1)}
-                className={`btn btn-sm ${
-                  currentPage === page + 1
-                    ? "bg-secondary text-white hover:bg-accent hover:text-white"
-                    : ""
-                }`}
-                key={page}
-              >
-                {page + 1}
-              </button>
-            ))}
-            <button
-              onClick={handelNextPage}
-              className="btn btn-sm bg-white ring px-6"
-            >
-              Next
-            </button>
-            <select
-              value={itemPerPage}
-              onChange={handelItemParPage}
-              className="btn btn-sm bg-white focus:outline-none"
-            >
-              <option value="3">3</option>
-              <option value="6">6</option>
-              <option value="9">9</option>
-            </select>
-          </div>
-        </>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
