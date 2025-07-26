@@ -3,11 +3,12 @@ import { Link, useLocation } from "react-router";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
-import axios from "axios";
 import { imageUpload, saveUserInDb } from "../../api/utils";
 import SocialLoginButtons from "./SocialLoginButtons";
 import { handleGoogleLogin } from "../../utils/handleGoogleLogin";
 import PasswordToggle from "./PasswordToggle";
+import useGeoData from "../../hooks/useGeoData";
+import useFilteredUpazilas from "../../hooks/useFilteredUpazilas";
 
 const RegisterForm = () => {
   const {
@@ -19,9 +20,6 @@ const RegisterForm = () => {
   } = useAuth();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [districts, setDistricts] = useState([]);
-  const [upazilas, setUpazilas] = useState([]);
-  const [filteredUpazilas, setFilteredUpazilas] = useState([]);
 
   const location = useLocation();
   const DEFAULT_AVATAR = "https://i.ibb.co/Q3bDs8Rx/test-avatar-2.png";
@@ -41,40 +39,15 @@ const RegisterForm = () => {
   const selectedUpazila = watch("upazila");
 
   // Load districts and upazilas
-  useEffect(() => {
-    const loadGeoData = async () => {
-      try {
-        const [districtRes, upazilaRes] = await Promise.all([
-          axios("/districts.json"),
-          axios("/upazilas.json"),
-        ]);
-        setDistricts(districtRes.data);
-        setUpazilas(upazilaRes.data);
-      } catch (error) {
-        toast.error("Failed to load location data");
-        console.error("Geo data load error:", error);
-      }
-    };
-    loadGeoData();
-  }, []);
+  const { districts, upazilas } = useGeoData();
 
   // Filter upazilas based on selected district
-  useEffect(() => {
-    if (!selectedDistrict) {
-      setFilteredUpazilas([]);
-      setValue("upazila", "");
-      return;
-    }
-
-    const related = upazilas.filter(
-      (u) => u.district_id === selectedDistrict.toString()
-    );
-    setFilteredUpazilas(related);
-
-    if (!related.find((u) => u.id === selectedUpazila)) {
-      setValue("upazila", "");
-    }
-  }, [selectedDistrict, selectedUpazila, upazilas, setValue]);
+  const filteredUpazilas = useFilteredUpazilas({
+    selectedDistrict,
+    selectedUpazila,
+    upazilas,
+    setValue,
+  });
 
   const handleAvatarUpload = async (e) => {
     const file = e.target.files[0];

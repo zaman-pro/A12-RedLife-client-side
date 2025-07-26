@@ -6,8 +6,9 @@ import { useNavigate } from "react-router";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 import { imageUpload } from "../../api/utils";
-import axios from "axios";
 import Loading from "../../components/Shared/Loading/Loading";
+import useGeoData from "../../hooks/useGeoData";
+import useFilteredUpazilas from "../../hooks/useFilteredUpazilas";
 
 const DashboardProfile = () => {
   const { user, updateUser, setUser } = useAuth();
@@ -16,9 +17,6 @@ const DashboardProfile = () => {
 
   const DEFAULT_AVATAR = "https://i.ibb.co/Q3bDs8Rx/test-avatar-2.png";
 
-  const [districts, setDistricts] = useState([]);
-  const [upazilas, setUpazilas] = useState([]);
-  const [filteredUpazilas, setFilteredUpazilas] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [avatarPreview, setAvatarPreview] = useState(DEFAULT_AVATAR);
   const [loading, setLoading] = useState(true);
@@ -36,40 +34,15 @@ const DashboardProfile = () => {
   const selectedUpazila = watch("upazila");
 
   // Load districts and upazilas
-  useEffect(() => {
-    const loadGeoData = async () => {
-      try {
-        const [districtRes, upazilaRes] = await Promise.all([
-          axios("/districts.json"),
-          axios("/upazilas.json"),
-        ]);
-        setDistricts(districtRes.data);
-        setUpazilas(upazilaRes.data);
-      } catch (error) {
-        toast.error("Failed to load location data");
-        console.error("Geo data load error:", error);
-      }
-    };
-    loadGeoData();
-  }, []);
+  const { districts, upazilas } = useGeoData();
 
   // Filter upazilas based on selected district
-  useEffect(() => {
-    if (!selectedDistrict) {
-      setFilteredUpazilas([]);
-      setValue("upazila", "");
-      return;
-    }
-
-    const related = upazilas.filter(
-      (u) => u.district_id === selectedDistrict.toString()
-    );
-    setFilteredUpazilas(related);
-
-    if (!related.find((u) => u.id === selectedUpazila)) {
-      setValue("upazila", "");
-    }
-  }, [selectedDistrict, selectedUpazila, upazilas, setValue]);
+  const filteredUpazilas = useFilteredUpazilas({
+    selectedDistrict,
+    selectedUpazila,
+    upazilas,
+    setValue,
+  });
 
   // Load user profile after geo data
   useEffect(() => {
@@ -82,15 +55,10 @@ const DashboardProfile = () => {
 
         setAvatarPreview(userData.photo || DEFAULT_AVATAR);
 
-        const relatedUpazilas = upazilas.filter(
-          (u) => u.district_id === userData.district
-        );
-        setFilteredUpazilas(relatedUpazilas);
-
         reset({
           ...userData,
-          upazila:
-            relatedUpazilas.find((u) => u.id === userData.upazila)?.id || "",
+          district: userData.district?.toString() || "",
+          upazila: userData.upazila?.toString() || "",
         });
       } catch (err) {
         toast.error("Failed to load profile");
@@ -101,7 +69,7 @@ const DashboardProfile = () => {
     };
 
     fetchUser();
-  }, [user?.email, axiosSecure, upazilas, reset, setValue]);
+  }, [user?.email, upazilas, axiosSecure, reset]);
 
   const handleAvatarUpload = async (e) => {
     const file = e.target.files?.[0];
