@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FaEdit, FaSave } from "react-icons/fa";
 import { useNavigate } from "react-router";
-import useAxiosPublic from "../../hooks/useAxiosPublic";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 import { imageUpload } from "../../api/utils";
 import axios from "axios";
@@ -11,7 +11,7 @@ import Loading from "../../components/Shared/Loading/Loading";
 
 const DashboardProfile = () => {
   const { user, updateUser, setUser } = useAuth();
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
   const DEFAULT_AVATAR = "https://i.ibb.co/Q3bDs8Rx/test-avatar-2.png";
@@ -77,7 +77,7 @@ const DashboardProfile = () => {
 
     const fetchUser = async () => {
       try {
-        const res = await axiosPublic.get(`/user/${user.email}`);
+        const res = await axiosSecure.get(`/user/${user.email}`);
         const userData = res.data;
 
         setAvatarPreview(userData.photo || DEFAULT_AVATAR);
@@ -101,7 +101,7 @@ const DashboardProfile = () => {
     };
 
     fetchUser();
-  }, [user?.email, axiosPublic, upazilas, reset, setValue]);
+  }, [user?.email, axiosSecure, upazilas, reset, setValue]);
 
   const handleAvatarUpload = async (e) => {
     const file = e.target.files?.[0];
@@ -123,7 +123,7 @@ const DashboardProfile = () => {
 
     try {
       // 1. Update in database
-      await axiosPublic.put(`/user/${user.email}`, payload);
+      await axiosSecure.put(`/user/${user.email}`, payload);
 
       // 2. Update Firebase Auth profile
       await updateUser({ displayName: payload.name, photoURL: payload.photo });
