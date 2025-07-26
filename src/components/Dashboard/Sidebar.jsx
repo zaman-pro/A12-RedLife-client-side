@@ -68,7 +68,7 @@ const Sidebar = () => {
               </li>
 
               <li className="border rounded">
-                <NavLink to="my-donation-requests">My Donation Request</NavLink>
+                <NavLink to="my-donation-request">My Donation Request</NavLink>
               </li>
 
               <li className="border rounded">
