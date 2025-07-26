@@ -4,6 +4,8 @@ import Root from "../layouts/Root";
 import Auth from "../pages/Auth/Auth";
 import DashboardLayout from "../layouts/DashboardLayout";
 import DashboardHome from "../pages/Dashboard/DashboardHome";
+import DashboardProfile from "../pages/Dashboard/DashboardProfile";
+import BlogPage from "../pages/Public/BlogPage";
 
 export const router = createBrowserRouter([
   {
@@ -13,6 +15,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: "blog",
+        Component: BlogPage,
       },
       {
         path: "/auth",
@@ -27,6 +33,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <DashboardHome />,
+      },
+      {
+        path: "profile",
+        element: <DashboardProfile />,
       },
     ],
   },

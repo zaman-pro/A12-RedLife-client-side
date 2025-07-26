@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { Link, useLocation } from "react-router";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
@@ -71,21 +70,22 @@ const RegisterForm = () => {
 
     // If current selected upazila not in filtered list, reset it
     setValue("upazila", (prev) => {
-      if (!filtered.find((u) => u.name === prev)) return "";
+      if (!filtered.find((u) => u.id.toString() === prev)) return "";
       return prev;
     });
   }, [selectedDistrictId, upazilas, setValue]);
 
   const handleImageUpload = async (e) => {
-    const imageFile = e.target.files[0];
-    if (!imageFile) return;
+    const file = e.target.files[0];
+    if (!file) return;
 
     try {
-      const url = await imageUpload(imageFile);
+      const url = await imageUpload(file);
       if (!url) throw new Error("Invalid image response");
 
       setProfilePic(url);
       setAvatarPreview(url);
+      toast.success("Avatar uploaded");
     } catch (error) {
       console.error("Image upload failed:", error);
       toast.error("Image upload failed. Try again.");
@@ -99,11 +99,6 @@ const RegisterForm = () => {
         id: "imageError",
       });
     }
-
-    const selectedDistrict = districts.find(
-      (d) => d.id.toString() === data.district
-    );
-    const districtName = selectedDistrict ? selectedDistrict.name : "";
 
     if (!passwordRegex.test(data.password)) {
       return toast.error("6+ letters with upper, lower & special characters", {
@@ -129,7 +124,7 @@ const RegisterForm = () => {
             email: data.email,
             photo: profilePic,
             bloodGroup: data.bloodGroup,
-            district: districtName,
+            district: data.district,
             upazila: data.upazila,
           };
           await saveUserInDb(userData);
@@ -239,7 +234,7 @@ const RegisterForm = () => {
         >
           <option value="">Select Upazila</option>
           {filteredUpazilas.map((u) => (
-            <option key={u.id} value={u.name}>
+            <option key={u.id} value={u.id}>
               {u.name}
             </option>
           ))}
