@@ -10,7 +10,7 @@ import axios from "axios";
 import Loading from "../../components/Shared/Loading/Loading";
 
 const DashboardProfile = () => {
-  const { user } = useAuth();
+  const { user, updateUser, setUser } = useAuth();
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
 
@@ -122,7 +122,19 @@ const DashboardProfile = () => {
     const { email, _id, ...payload } = data;
 
     try {
+      // 1. Update in database
       await axiosPublic.put(`/user/${user.email}`, payload);
+
+      // 2. Update Firebase Auth profile
+      await updateUser({ displayName: payload.name, photoURL: payload.photo });
+
+      // 3. Update context
+      setUser({
+        ...user,
+        displayName: payload.name,
+        photoURL: payload.photo,
+      });
+
       toast.success("Profile updated");
       setIsEditing(false);
       navigate("/dashboard/profile");
