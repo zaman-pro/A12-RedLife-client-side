@@ -1,4 +1,4 @@
-const StatusFilter = ({ filter, onChange }) => {
+const StatusFilter = ({ filter, onChange, isUser }) => {
   return (
     <div className="flex items-center gap-2">
       <label className="font-medium">Filter by Status:</label>
@@ -8,10 +8,19 @@ const StatusFilter = ({ filter, onChange }) => {
         className="select select-bordered select-sm w-44"
       >
         <option value="">All</option>
-        <option value="pending">Pending</option>
-        <option value="inprogress">In Progress</option>
-        <option value="done">Done</option>
-        <option value="canceled">Canceled</option>
+        {isUser ? (
+          <>
+            <option value="active">Active</option>
+            <option value="blocked">Blocked</option>
+          </>
+        ) : (
+          <>
+            <option value="pending">Pending</option>
+            <option value="inprogress">In Progress</option>
+            <option value="done">Done</option>
+            <option value="canceled">Canceled</option>
+          </>
+        )}
       </select>
     </div>
   );

@@ -9,6 +9,7 @@ import BlogPage from "../pages/Public/BlogPage";
 import PrivateRoute from "./PrivateRoute";
 import CreateDonationRequest from "../pages/Dashboard/CreateDonationRequest";
 import MyDonationRequest from "../pages/Dashboard/MyDonationRequest";
+import AllUsers from "../pages/Dashboard/Admin/AllUser";
 
 export const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ export const router = createBrowserRouter([
       {
         path: "my-donation-requests",
         element: <MyDonationRequest />,
+      },
+      {
+        path: "all-users",
+        element: <AllUsers />,
       },
     ],
   },
