@@ -95,6 +95,8 @@ const DashboardHome = () => {
     return `${upazilaName}, ${districtName}`;
   };
 
+  if (!role) return <Loading />;
+
   if (isLoading) return <Loading />;
 
   if (role === "admin" || role === "volunteer") return <DashboardHomeAdmin />;

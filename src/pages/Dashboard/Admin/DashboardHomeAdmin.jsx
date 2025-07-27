@@ -48,7 +48,7 @@ const DashboardHomeAdmin = () => {
           {user?.displayName}
         </p>
         <p className="mt-1 text-sm text-gray-600">
-          Here's a quick overview of your platform statistics.
+          Real-time oversight of all RedLife activities
         </p>
       </div>
 

@@ -125,22 +125,6 @@ const MyDonationRequest = () => {
         My Donation Requests
       </h1>
 
-      {/* Pagination Controls */}
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
-        <StatusFilter value={filter} onChange={setFilter} />
-        <PaginationControls
-          itemPerPage={itemPerPage}
-          setItemPerPage={setItemPerPage}
-          currentPage={currentPage}
-          totalPages={numberOfPages}
-          onPageChange={(page) => {
-            if (page >= 1 && page <= numberOfPages) {
-              setCurrentPage(page);
-            }
-          }}
-        />
-      </div>
-
       {/* Donation Table */}
       {donationRequests.length === 0 ? (
         <div className="text-center py-10 text-gray-500">
@@ -151,12 +135,30 @@ const MyDonationRequest = () => {
           </h2>
         </div>
       ) : (
-        <DonationTable
-          data={donationRequests}
-          onDelete={handleDelete}
-          onStatusChange={handleStatusChange}
-          getLocation={getLocation}
-        />
+        <>
+          {/* Pagination Controls */}
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+            <StatusFilter value={filter} onChange={setFilter} />
+            <PaginationControls
+              itemPerPage={itemPerPage}
+              setItemPerPage={setItemPerPage}
+              currentPage={currentPage}
+              totalPages={numberOfPages}
+              onPageChange={(page) => {
+                if (page >= 1 && page <= numberOfPages) {
+                  setCurrentPage(page);
+                }
+              }}
+            />
+          </div>
+
+          <DonationTable
+            data={donationRequests}
+            onDelete={handleDelete}
+            onStatusChange={handleStatusChange}
+            getLocation={getLocation}
+          />
+        </>
       )}
     </div>
   );

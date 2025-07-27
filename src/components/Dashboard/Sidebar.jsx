@@ -61,7 +61,7 @@ const Sidebar = () => {
           <div className="flex flex-col justify-between flex-1 mt-6">
             <ul className="menu bg-base-200 rounded-box space-y-2">
               <li className="border rounded">
-                <NavLink to="/dashboard">Dashboard</NavLink>
+                <NavLink to="overview">Overview</NavLink>
               </li>
 
               <li className="border rounded">
@@ -95,12 +95,6 @@ const Sidebar = () => {
               {(role === "admin" || role === "volunteer") && (
                 <li className="border rounded">
                   <NavLink to="content-management">Content Management</NavLink>
-                </li>
-              )}
-
-              {role === "admin" && (
-                <li className="border rounded">
-                  <NavLink to="/dashboard/overview">Overview</NavLink>
                 </li>
               )}
             </ul>
