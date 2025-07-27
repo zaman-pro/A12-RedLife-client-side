@@ -9,6 +9,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useGeoData from "../../hooks/useGeoData";
 import useFilteredUpazilas from "../../hooks/useFilteredUpazilas";
 import useStatus from "../../hooks/useStatus";
+import Loading from "../../components/Shared/Loading/Loading";
 
 const CreateDonationRequest = () => {
   const { user } = useAuth();
@@ -64,6 +65,8 @@ const CreateDonationRequest = () => {
       console.error("Donation request error:", err);
     }
   };
+
+  if (!status) return <Loading />;
 
   if (status === "blocked")
     return (

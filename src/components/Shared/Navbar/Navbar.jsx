@@ -10,6 +10,7 @@ import { Tooltip } from "react-tooltip";
 import { RiHome4Line } from "react-icons/ri";
 import useAuth from "../../../hooks/useAuth";
 import { IoMoonOutline, IoSunnyOutline } from "react-icons/io5";
+import Logo from "../Logo";
 
 const Navbar = () => {
   const location = useLocation();
@@ -142,16 +143,7 @@ const Navbar = () => {
           </AnimatePresence>
         </div>
 
-        <Link to="/" className="flex items-center">
-          <img
-            className="w-10 mr-2 hidden md:flex"
-            src="https://i.ibb.co/wrY5MYL0/red-life-icon.png"
-            alt="Logo"
-          />
-          <span className="hidden lg:flex text-3xl font-bold text-secondary">
-            RedLife
-          </span>
-        </Link>
+        <Logo />
       </div>
 
       <div className="navbar-center hidden md:flex">

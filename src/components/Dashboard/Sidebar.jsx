@@ -4,6 +4,7 @@ import { FaBars } from "react-icons/fa";
 import { Link, NavLink } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import useRole from "../../hooks/useRole";
+import Logo from "../Shared/Logo";
 
 const Sidebar = () => {
   const { logout } = useAuth();
@@ -47,13 +48,15 @@ const Sidebar = () => {
         <div>
           <div>
             <div className="w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center mx-auto">
-              <Link to="/" className="btn btn-ghost text-xl">
+              {/* <Link to="/" className="btn btn-ghost text-xl">
                 <img
                   className="h-full"
                   src="https://i.ibb.co/wrY5MYL0/red-life-icon.png"
                   alt="logo"
                 />
-              </Link>
+              </Link> */}
+
+              <Logo />
             </div>
           </div>
 

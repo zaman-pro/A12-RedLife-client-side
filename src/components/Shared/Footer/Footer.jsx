@@ -5,6 +5,7 @@ import {
   FaLinkedin,
 } from "react-icons/fa";
 import { Link } from "react-router";
+import Logo from "../Logo";
 
 const Footer = () => {
   return (
@@ -13,11 +14,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* About Section */}
           <div>
-            <Link to="/">
-              <h1 className="text-3xl font-bold text-secondary mb-4">
-                RedLife
-              </h1>
-            </Link>
+            <Logo />
             <p className="">
               RedLife connects blood donors with people who need it. Simple.
               Safe. Life saving. Join us and help save lives.
