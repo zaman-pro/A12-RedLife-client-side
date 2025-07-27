@@ -1,42 +1,47 @@
-import React, { useEffect, useState } from "react";
 import { FaUsers, FaHandHoldingHeart, FaTint } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
 import useRole from "../../../hooks/useRole";
 import StatCard from "../../../components/Dashboard/Admin/StatCard";
+import Loading from "../../../components/Shared/Loading/Loading";
 
 const DashboardHomeAdmin = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const { role } = useRole();
 
-  const [stats, setStats] = useState({
-    totalUsers: 0,
-    totalFunding: 0,
-    totalBloodRequests: 0,
+  const {
+    data: stats,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["adminStats"],
+    queryFn: async () => {
+      const [usersRes, fundingRes, requestsRes] = await Promise.all([
+        axiosSecure("/admin/users/count"),
+        axiosSecure("/admin/funding/total"),
+        axiosSecure("/admin/blood-requests/count"),
+      ]);
+
+      return {
+        totalUsers: usersRes.data.count,
+        totalFunding: fundingRes.data.total,
+        totalBloodRequests: requestsRes.data.count,
+      };
+    },
   });
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const [usersRes, fundingRes, requestsRes] = await Promise.all([
-          axiosSecure("/admin/users/count"),
-          axiosSecure("/admin/funding/total"),
-          axiosSecure("/admin/blood-requests/count"),
-        ]);
+  if (!role) return <Loading />;
 
-        setStats({
-          totalUsers: usersRes.data.count,
-          totalFunding: fundingRes.data.total,
-          totalBloodRequests: requestsRes.data.count,
-        });
-      } catch (error) {
-        console.error("Error fetching dashboard statistics:", error);
-      }
-    };
+  if (isLoading) return <Loading />;
 
-    fetchStats();
-  }, [axiosSecure]);
+  if (isError)
+    return (
+      <p className="text-red-500 text-center py-10 text-lg">
+        Failed to load statistics.
+      </p>
+    );
 
   return (
     <div className="p-4 space-y-6">
