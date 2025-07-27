@@ -3,16 +3,13 @@ import { GrLogout } from "react-icons/gr";
 import { FaBars } from "react-icons/fa";
 import { Link, NavLink } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import useRole from "../../hooks/useRole";
 
 const Sidebar = () => {
   const { logout } = useAuth();
   const [isActive, setActive] = useState(true);
 
-  // useRole hook will be here
-
-  // const role = "admin";
-  const role = "donor";
-  // const role = "volunteer";
+  const { role } = useRole();
 
   const handleToggle = () => {
     setActive(!isActive);
