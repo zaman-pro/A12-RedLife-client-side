@@ -39,12 +39,12 @@ const DashboardHome = () => {
       });
 
       if (data?.modifiedCount > 0) {
-        toast.success(`Status successfully updated to ${newStatus}`);
+        toast.success(`Status updated to ${newStatus}`);
         refetch();
       }
     } catch (error) {
-      console.error("Status update failed:", error);
-      toast.error("Something went wrong while updating status.");
+      console.error("Update failed", error);
+      toast.error("Failed to update status.");
     }
   };
 
@@ -74,9 +74,9 @@ const DashboardHome = () => {
         toast.success("Donation request deleted successfully.");
         refetch();
       }
-    } catch (error) {
-      console.error("Delete failed:", error);
-      toast.error("Failed to delete donation request.");
+    } catch (err) {
+      console.error("Delete failed", err);
+      toast.error("Failed to delete request.");
     }
   };
 
