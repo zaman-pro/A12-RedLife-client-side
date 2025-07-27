@@ -10,25 +10,32 @@ import PaginationControls from "../../components/Dashboard/PaginationControls";
 import DonationTable from "../../components/Dashboard/DonationTable";
 
 const AllDonationRequests = () => {
-  const [filter, setFilter] = useState("");
-
   const axiosPublic = useAxiosPublic();
-
+  const { districts, upazilas } = useGeoData();
+  const [filter, setFilter] = useState("");
   const [itemCount, setItemCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemPerPage, setItemPerPage] = useState(3);
 
-  // Load districts and upazilas
-  const { districts, upazilas } = useGeoData();
+  // Calculate total pages
+  const totalPages = Math.ceil(itemCount / itemPerPage);
 
-  // Fetch all count
+  // Fetch count whenever filter changes
   useEffect(() => {
-    axiosPublic
-      .get(`/all-donation-count`, { params: { status: filter } })
-      .then(({ data }) => setItemCount(data?.count || 0));
+    const fetchCount = async () => {
+      try {
+        const { data } = await axiosPublic.get(`/all-donation-count`, {
+          params: { status: filter },
+        });
+        setItemCount(data?.count || 0);
+      } catch (err) {
+        console.error("Failed to fetch count", err);
+      }
+    };
+    fetchCount();
   }, [axiosPublic, filter]);
 
-  // Fetch all donation requests
+  // Fetch donation data
   const {
     data: donationRequests = [],
     refetch,
@@ -45,6 +52,7 @@ const AllDonationRequests = () => {
       });
       return data;
     },
+    keepPreviousData: true,
   });
 
   // Handle status change
@@ -58,13 +66,13 @@ const AllDonationRequests = () => {
         toast.success(`Status updated to ${newStatus}`);
         refetch();
       }
-    } catch (error) {
-      console.error("Update failed", error);
+    } catch (err) {
+      console.error("Failed to update status", err);
       toast.error("Failed to update status.");
     }
   };
 
-  // Handle delete
+  // Handle deletion
   const handleDelete = async (id) => {
     const result = await Swal.fire({
       title: "Are you sure?",
@@ -81,7 +89,6 @@ const AllDonationRequests = () => {
 
     try {
       const { data } = await axiosPublic.delete(`/donation-request/${id}`);
-
       if (
         data?.deletedCount > 0 ||
         data?.success ||
@@ -91,12 +98,12 @@ const AllDonationRequests = () => {
         refetch();
       }
     } catch (err) {
-      console.error("Delete failed", err);
+      console.error("Failed to delete", err);
       toast.error("Failed to delete request.");
     }
   };
 
-  // Format location
+  // Location formatter
   const getLocation = (districtId, upazilaId) => {
     const districtName =
       districts?.find((d) => String(d.id) === String(districtId))?.name ||
@@ -104,41 +111,37 @@ const AllDonationRequests = () => {
     const upazilaName =
       upazilas?.find((u) => String(u.id) === String(upazilaId))?.name ||
       "Unknown Upazila";
-
     return `${upazilaName}, ${districtName}`;
   };
-
-  const numberOfPages = Math.ceil(itemCount / itemPerPage);
 
   if (isLoading) return <Loading />;
 
   return (
     <div className="p-6 space-y-6 max-w-7xl mx-auto">
-      <h1 className="text-4xl font-bold mb-6 text-center">
-        All Donation Requests
-      </h1>
+      <h1 className="text-4xl font-bold text-center">All Donation Requests</h1>
 
-      {/* Pagination Controls */}
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
-        <StatusFilter value={filter} onChange={setFilter} />
+      {/* Filter + Pagination Controls */}
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        <StatusFilter filter={filter} onChange={setFilter} />
         <PaginationControls
           itemPerPage={itemPerPage}
-          setItemPerPage={setItemPerPage}
+          setItemPerPage={(num) => {
+            setItemPerPage(num);
+            setCurrentPage(1);
+          }}
           currentPage={currentPage}
-          totalPages={numberOfPages}
+          totalPages={totalPages}
           onPageChange={(page) => {
-            if (page >= 1 && page <= numberOfPages) {
-              setCurrentPage(page);
-            }
+            if (page >= 1 && page <= totalPages) setCurrentPage(page);
           }}
         />
       </div>
 
-      {/* Donation Table */}
+      {/* Table */}
       {donationRequests.length === 0 ? (
         <div className="text-center py-10 text-gray-500">
-          <h2 className="text-lg">
-            You have no donation requests in{" "}
+          <h2>
+            No donation requests in{" "}
             <span className="font-semibold capitalize">{filter || "any"}</span>{" "}
             status.
           </h2>
