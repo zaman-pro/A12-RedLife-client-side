@@ -1,37 +1,50 @@
-import { Link } from "react-router";
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import { useQuery } from "@tanstack/react-query";
-import useAuth from "../../hooks/useAuth";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Loading from "../../components/Shared/Loading/Loading";
-import DonationTable from "../../components/Dashboard/DonationTable";
 import useGeoData from "../../hooks/useGeoData";
-import useRole from "../../hooks/useRole";
-import DashboardHomeAdmin from "./Admin/DashboardHomeAdmin";
+import StatusFilter from "../../components/Dashboard/StatusFilter";
+import PaginationControls from "../../components/Dashboard/PaginationControls";
+import DonationTable from "../../components/Dashboard/DonationTable";
 
-const DashboardHome = () => {
-  const { user } = useAuth();
+const AllDonationRequests = () => {
+  const [filter, setFilter] = useState("");
+
   const axiosPublic = useAxiosPublic();
-  const { role } = useRole();
+
+  const [itemCount, setItemCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemPerPage, setItemPerPage] = useState(3);
 
   // Load districts and upazilas
   const { districts, upazilas } = useGeoData();
 
-  // Fetch donation requests
+  // Fetch all count
+  useEffect(() => {
+    axiosPublic
+      .get(`/all-donation-count`, { params: { status: filter } })
+      .then(({ data }) => setItemCount(data?.count || 0));
+  }, [axiosPublic, filter]);
+
+  // Fetch all donation requests
   const {
     data: donationRequests = [],
     refetch,
     isLoading,
   } = useQuery({
-    queryKey: ["dashboardRecentDonationRequests", user?.email],
+    queryKey: ["donationRequests", filter, currentPage, itemPerPage],
     queryFn: async () => {
-      const { data } = await axiosPublic.get(`/donation-request`, {
-        params: { email: user?.email, limit: 3 },
+      const { data } = await axiosPublic.get(`/all-blood-donation-request`, {
+        params: {
+          filter,
+          skip: (currentPage - 1) * itemPerPage,
+          limit: itemPerPage,
+        },
       });
       return data;
     },
-    enabled: !!user?.email,
   });
 
   // Handle status change
@@ -95,53 +108,51 @@ const DashboardHome = () => {
     return `${upazilaName}, ${districtName}`;
   };
 
-  if (!role) return <Loading />;
+  const numberOfPages = Math.ceil(itemCount / itemPerPage);
 
   if (isLoading) return <Loading />;
 
-  if (role === "admin" || role === "volunteer") return <DashboardHomeAdmin />;
-
   return (
     <div className="p-6 space-y-6 max-w-7xl mx-auto">
-      {/* Welcome Section */}
-      <div className="flex items-center space-x-4">
-        <img
-          src={user?.photoURL}
-          alt="User"
-          className="w-16 h-16 rounded-full ring-2 ring-secondary"
+      <h1 className="text-4xl font-bold mb-6 text-center">
+        All Donation Requests
+      </h1>
+
+      {/* Pagination Controls */}
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+        <StatusFilter value={filter} onChange={setFilter} />
+        <PaginationControls
+          itemPerPage={itemPerPage}
+          setItemPerPage={setItemPerPage}
+          currentPage={currentPage}
+          totalPages={numberOfPages}
+          onPageChange={(page) => {
+            if (page >= 1 && page <= numberOfPages) {
+              setCurrentPage(page);
+            }
+          }}
         />
-        <h1 className="text-2xl font-semibold">
-          Welcome, {user?.displayName}!
-        </h1>
       </div>
 
       {/* Donation Table */}
-      {donationRequests.length > 0 ? (
+      {donationRequests.length === 0 ? (
+        <div className="text-center py-10 text-gray-500">
+          <h2 className="text-lg">
+            You have no donation requests in{" "}
+            <span className="font-semibold capitalize">{filter || "any"}</span>{" "}
+            status.
+          </h2>
+        </div>
+      ) : (
         <DonationTable
           data={donationRequests}
           onDelete={handleDelete}
           onStatusChange={handleStatusChange}
           getLocation={getLocation}
         />
-      ) : (
-        <div className="text-center py-10 text-gray-500">
-          <h2 className="text-lg">No donation requests yet.</h2>
-        </div>
-      )}
-
-      {/* View All Button */}
-      {donationRequests.length > 0 && (
-        <div className="text-center">
-          <Link
-            to="/dashboard/my-donation-requests"
-            className="btn bg-secondary text-white mt-4"
-          >
-            View My All Requests
-          </Link>
-        </div>
       )}
     </div>
   );
 };
 
-export default DashboardHome;
+export default AllDonationRequests;
