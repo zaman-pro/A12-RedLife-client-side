@@ -5,7 +5,7 @@ const StatusFilter = ({ filter, onChange, isUser }) => {
       <select
         value={filter}
         onChange={(e) => onChange(e.target.value)}
-        className="select select-bordered select-sm w-44"
+        className="select focus:outline-none select-sm w-44"
       >
         <option value="">All</option>
         {isUser ? (

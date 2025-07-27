@@ -15,6 +15,9 @@ const Sidebar = () => {
   const handleToggle = () => {
     setActive(!isActive);
   };
+
+  if (!role) return;
+
   return (
     <aside>
       {/* sm device menu bar with logo */}

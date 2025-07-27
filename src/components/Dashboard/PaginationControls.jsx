@@ -16,7 +16,7 @@ const PaginationControls = ({
           setItemPerPage(parseInt(e.target.value));
           onPageChange(1);
         }}
-        className="select select-bordered select-sm w-20"
+        className="select focus:outline-none select-sm w-20"
       >
         {[3, 5, 10, 20].map((num) => (
           <option key={num} value={num}>
@@ -38,7 +38,7 @@ const PaginationControls = ({
           key={page}
           onClick={() => onPageChange(page + 1)}
           className={`btn btn-sm ${
-            currentPage === page + 1 ? "btn-primary text-white" : ""
+            currentPage === page + 1 ? "btn-secondary text-white" : ""
           }`}
         >
           {page + 1}

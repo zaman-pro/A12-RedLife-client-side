@@ -23,7 +23,10 @@ const DonationTable = ({ data, onDelete, onStatusChange, getLocation }) => {
         </thead>
         <tbody>
           {data.map((req, idx) => (
-            <tr key={req._id}>
+            <tr
+              key={req._id}
+              className="hover:bg-base-300 transition-colors duration-300"
+            >
               <td>{idx + 1}</td>
               <td>{req.recipientName}</td>
               <td>
