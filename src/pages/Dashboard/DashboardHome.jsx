@@ -7,10 +7,13 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Loading from "../../components/Shared/Loading/Loading";
 import DonationTable from "../../components/Dashboard/DonationTable";
 import useGeoData from "../../hooks/useGeoData";
+import useRole from "../../hooks/useRole";
+import DashboardHomeAdmin from "./Admin/DashboardHomeAdmin";
 
 const DashboardHome = () => {
   const { user } = useAuth();
   const axiosPublic = useAxiosPublic();
+  const { role } = useRole();
 
   // Load districts and upazilas
   const { districts, upazilas } = useGeoData();
@@ -93,6 +96,8 @@ const DashboardHome = () => {
   };
 
   if (isLoading) return <Loading />;
+
+  if (role === "admin" || role === "volunteer") return <DashboardHomeAdmin />;
 
   return (
     <div className="p-6 space-y-6 max-w-7xl mx-auto">
