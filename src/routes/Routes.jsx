@@ -50,7 +50,7 @@ export const router = createBrowserRouter([
         element: <CreateDonationRequest />,
       },
       {
-        path: "my-donation-request",
+        path: "my-donation-requests",
         element: <MyDonationRequest />,
       },
     ],

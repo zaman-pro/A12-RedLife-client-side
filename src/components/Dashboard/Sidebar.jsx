@@ -64,11 +64,15 @@ const Sidebar = () => {
           <div className="flex flex-col justify-between flex-1 mt-6">
             <ul className="menu bg-base-200 rounded-box space-y-2">
               <li className="border rounded">
+                <NavLink to="/dashboard">Dashboard</NavLink>
+              </li>
+
+              <li className="border rounded">
                 <NavLink to="profile">Profile</NavLink>
               </li>
 
               <li className="border rounded">
-                <NavLink to="my-donation-request">My Donation Request</NavLink>
+                <NavLink to="my-donation-requests">My Donation Request</NavLink>
               </li>
 
               <li className="border rounded">

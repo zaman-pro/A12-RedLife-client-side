@@ -53,47 +53,65 @@ const MyDonationRequest = () => {
     },
   });
 
+  // Handle status change
   const handleStatusChange = async (id, newStatus) => {
     try {
-      await axiosPublic.put(`/donation-request/${id}`, {
+      const { data } = await axiosPublic.put(`/donation-request/${id}`, {
         donationStatus: newStatus,
       });
-      toast.success(`Status updated to ${newStatus}`);
-      refetch();
-    } catch (err) {
-      toast.error("Failed to update status.");
-      console.log(err);
+
+      if (data?.modifiedCount > 0) {
+        toast.success(`Status successfully updated to ${newStatus}`);
+        refetch();
+      }
+    } catch (error) {
+      console.error("Status update failed:", error);
+      toast.error("Something went wrong while updating status.");
     }
   };
 
+  // Handle delete
   const handleDelete = async (id) => {
     const result = await Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: "This action cannot be undone!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
     });
 
-    if (result.isConfirmed) {
-      try {
-        await axiosPublic.delete(`/donation-request/${id}`);
-        toast.success("Donation request deleted.");
+    if (!result.isConfirmed) return;
+
+    try {
+      const { data } = await axiosPublic.delete(`/donation-request/${id}`);
+
+      if (
+        data?.deletedCount > 0 ||
+        data?.success ||
+        data?.message === "Deleted"
+      ) {
+        toast.success("Donation request deleted successfully.");
         refetch();
-      } catch (err) {
-        toast.error("Failed to delete donation request.");
-        console.log(err);
       }
+    } catch (error) {
+      console.error("Delete failed:", error);
+      toast.error("Failed to delete donation request.");
     }
   };
 
+  // Format location
   const getLocation = (districtId, upazilaId) => {
-    const district =
-      districts.find((d) => d.id === districtId)?.name || "Unknown";
-    const upazila = upazilas.find((u) => u.id === upazilaId)?.name || "Unknown";
-    return `${district}, ${upazila}`;
+    const districtName =
+      districts?.find((d) => String(d.id) === String(districtId))?.name ||
+      "Unknown District";
+    const upazilaName =
+      upazilas?.find((u) => String(u.id) === String(upazilaId))?.name ||
+      "Unknown Upazila";
+
+    return `${upazilaName}, ${districtName}`;
   };
 
   const numberOfPage = Math.ceil(itemCount / itemPerPage);
@@ -115,7 +133,7 @@ const MyDonationRequest = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="p-4 max-w-7xl mx-auto">
+    <div className="p-6 space-y-6 max-w-7xl mx-auto">
       <h1 className="text-4xl font-bold mb-6 text-center">
         My Donation Requests
       </h1>
