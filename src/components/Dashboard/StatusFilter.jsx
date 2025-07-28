@@ -15,6 +15,11 @@ const StatusFilter = ({ filter, onChange, filterType }) => {
       { value: "draft", label: "Draft" },
       { value: "published", label: "Published" },
     ],
+    donationPublic: [
+      { value: "", label: "None" },
+      { value: "asc", label: "Ascending" },
+      { value: "desc", label: "Descending" },
+    ],
   };
 
   // Get the appropriate options based on filterType
@@ -22,16 +27,18 @@ const StatusFilter = ({ filter, onChange, filterType }) => {
 
   return (
     <div className="flex items-center gap-2">
-      <label className="font-medium">Filter by Status:</label>
+      <label className="font-medium">
+        Filter by{filterType !== "donationPublic" && " Status"}:
+      </label>
       <select
         value={filter}
         onChange={(e) => onChange(e.target.value)}
         className="select focus:outline-none select-sm w-44"
       >
-        <option value="">All</option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
+        {filterType !== "donationPublic" && <option value="">All</option>}
+        {options.map(({ value, label }) => (
+          <option key={value} value={value}>
+            {label}
           </option>
         ))}
       </select>
