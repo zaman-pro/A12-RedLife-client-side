@@ -1,4 +1,4 @@
-import { useParams, Link, useNavigate } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Loading from "../../components/Shared/Loading/Loading";
@@ -50,21 +50,19 @@ function BlogDetails() {
         <FaArrowLeft className="mr-2" /> Back
       </button>
 
-      <article className="bg-white rounded-xl shadow-md overflow-hidden">
+      <article className="rounded-xl shadow-md overflow-hidden">
         {blog.thumbnail && (
           <img
             src={blog.thumbnail}
             alt={blog.title}
-            className="w-full h-96 object-cover object-center"
+            className="w-full h-48 sm:h-64 md:h-80 object-cover object-center"
             loading="lazy"
           />
         )}
 
         <div className="p-6 md:p-8">
           <header className="mb-6">
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-              {blog.title}
-            </h1>
+            <h1 className="text-3xl md:text-4xl font-bold">{blog.title}</h1>
             {blog.createdAt && (
               <p className="text-gray-500 mt-2">
                 Published on {new Date(blog.createdAt).toLocaleDateString()}
@@ -73,7 +71,7 @@ function BlogDetails() {
           </header>
 
           <div
-            className="prose max-w-none text-gray-700"
+            className="prose prose-sm sm:prose max-w-none"
             dangerouslySetInnerHTML={{ __html: blog.content }}
           />
         </div>
