@@ -61,7 +61,9 @@ const DonationTable = ({
               <td className="flex gap-1 flex-col items-center justify-center lg:flex-row">
                 <button
                   className="btn btn-sm btn-info text-white"
-                  onClick={() => navigate(`donation-request/${req._id}`)}
+                  onClick={() =>
+                    navigate(`/dashboard/donation-request/${req._id}`)
+                  }
                 >
                   <FaEye />
                 </button>
