@@ -6,7 +6,7 @@ import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import Loading from "../../../components/Shared/Loading/Loading";
 import PaginationControls from "../../../components/Dashboard/PaginationControls";
 import StatusFilter from "../../../components/Dashboard/StatusFilter";
-import UserRow from "./UserRow";
+import UserRow from "../../../components/Dashboard/Admin/UserRow";
 
 const AllUser = () => {
   const axiosSecure = useAxiosSecure();
