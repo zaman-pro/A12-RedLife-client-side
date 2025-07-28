@@ -1,7 +1,13 @@
 import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
 import { useNavigate } from "react-router";
 
-const DonationTable = ({ data, onDelete, onStatusChange, getLocation }) => {
+const DonationTable = ({
+  data,
+  onDelete,
+  onStatusChange,
+  getLocation,
+  role,
+}) => {
   const navigate = useNavigate();
 
   return (
@@ -59,18 +65,22 @@ const DonationTable = ({ data, onDelete, onStatusChange, getLocation }) => {
                 >
                   <FaEye />
                 </button>
-                <button
-                  className="btn btn-sm btn-warning text-white"
-                  onClick={() => navigate(`edit-donation-request/${req._id}`)}
-                >
-                  <FaEdit />
-                </button>
-                <button
-                  className="btn btn-sm btn-error text-white"
-                  onClick={() => onDelete(req._id)}
-                >
-                  <FaTrash />
-                </button>
+                {role === "admin" && (
+                  <button
+                    className="btn btn-sm btn-warning text-white"
+                    onClick={() => navigate(`edit-donation-request/${req._id}`)}
+                  >
+                    <FaEdit />
+                  </button>
+                )}
+                {role === "admin" && (
+                  <button
+                    className="btn btn-sm btn-error text-white"
+                    onClick={() => onDelete(req._id)}
+                  >
+                    <FaTrash />
+                  </button>
+                )}
               </td>
             </tr>
           ))}

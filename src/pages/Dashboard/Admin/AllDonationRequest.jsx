@@ -8,10 +8,12 @@ import useGeoData from "../../../hooks/useGeoData";
 import StatusFilter from "../../../components/Dashboard/StatusFilter";
 import PaginationControls from "../../../components/Dashboard/PaginationControls";
 import DonationTable from "../../../components/Dashboard/DonationTable";
+import useRole from "../../../hooks/useRole";
 
 const AllDonationRequests = () => {
   const axiosPublic = useAxiosPublic();
   const { districts, upazilas } = useGeoData();
+  const { role } = useRole();
   const [filter, setFilter] = useState("");
   const [itemCount, setItemCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -74,6 +76,8 @@ const AllDonationRequests = () => {
 
   // Handle deletion
   const handleDelete = async (id) => {
+    if (role !== "admin") return;
+
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "This action cannot be undone!",
@@ -156,6 +160,7 @@ const AllDonationRequests = () => {
           onDelete={handleDelete}
           onStatusChange={handleStatusChange}
           getLocation={getLocation}
+          role={role}
         />
       )}
     </div>
