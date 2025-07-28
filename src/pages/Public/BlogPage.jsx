@@ -63,7 +63,10 @@ const BlogCardPublic = ({ blog }) => (
         className="prose prose-sm  mb-4 line-clamp-2"
         dangerouslySetInnerHTML={{ __html: blog.content }}
       />
-      <Link to={blog?._id} className="mt-auto btn btn-secondary w-fit">
+      <Link
+        to={`/blogs/${blog?._id}`}
+        className="mt-auto btn btn-secondary w-fit"
+      >
         Read More
       </Link>
     </div>

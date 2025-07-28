@@ -18,6 +18,7 @@ import VolunteerRoute from "./VolunteerRoute";
 import SearchPage from "../pages/Public/SearchPage";
 import BloodDonationRequests from "../pages/Public/BloodDonationRequests";
 import DonationRequestDetails from "../pages/Public/DonationRequestDetails";
+import BlogDetails from "../pages/Public/BlogDetails";
 
 export const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ export const router = createBrowserRouter([
       {
         path: "blog",
         Component: BlogPage,
+      },
+      {
+        path: "/blogs/:id",
+        element: <BlogDetails />,
       },
       {
         path: "/auth",
