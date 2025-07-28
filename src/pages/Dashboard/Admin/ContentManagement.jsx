@@ -91,39 +91,46 @@ const ContentManagement = () => {
         </Link>
       </div>
 
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-        <StatusFilter filter={filter} onChange={setFilter} filterType="blog" />
-        <PaginationControls
-          itemPerPage={itemPerPage}
-          setItemPerPage={setItemPerPage}
-          currentPage={currentPage}
-          totalPages={numberOfPages}
-          onPageChange={(page) => {
-            if (page >= 1 && page <= numberOfPages) setCurrentPage(page);
-          }}
-        />
-      </div>
-
-      {role === "admin" || role === "volunteer" ? (
-        blogs.length > 0 ? (
-          <BlogGrid
-            blogs={blogs}
-            role={role}
-            onStatusChange={handleStatusChange}
-            onDelete={handleDeleteBlog}
-          />
-        ) : (
-          <div className="text-center py-10 text-gray-500">
-            <h2 className="text-lg font-medium">
-              No blogs found in{" "}
-              <span className="font-semibold capitalize">
-                {filter || "any"}
-              </span>{" "}
-              status.
-            </h2>
+      {(role === "admin" || role === "volunteer") && (
+        <>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <StatusFilter
+              filter={filter}
+              onChange={setFilter}
+              filterType="blog"
+            />
+            <PaginationControls
+              itemPerPage={itemPerPage}
+              setItemPerPage={setItemPerPage}
+              currentPage={currentPage}
+              totalPages={numberOfPages}
+              onPageChange={(page) => {
+                if (page >= 1 && page <= numberOfPages) setCurrentPage(page);
+              }}
+            />
           </div>
-        )
-      ) : null}
+
+          {blogs.length > 0 ? (
+            <BlogGrid
+              blogs={blogs}
+              role={role}
+              onStatusChange={handleStatusChange}
+              onDelete={handleDeleteBlog}
+            />
+          ) : (
+            <div className="text-center py-10 text-gray-500">
+              <h2 className="text-lg font-medium">
+                No blogs found in
+                <span className="font-semibold capitalize">
+                  {" "}
+                  {filter || "any"}
+                </span>
+                status.
+              </h2>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };
