@@ -98,7 +98,7 @@ const DonationRequestDetails = () => {
   } = donationRequest;
 
   return (
-    <div className="p-6 space-y-6 max-w-4xl mx-auto">
+    <div className="p-6 space-y-6 max-w-7xl mx-auto">
       <button
         className="btn btn-sm btn-outline flex items-center"
         onClick={() => navigate(-1)}
