@@ -13,6 +13,8 @@ import AllUser from "../pages/Dashboard/Admin/AllUser";
 import AllDonationRequests from "../pages/Dashboard/Admin/AllDonationRequest";
 import ContentManagement from "../pages/Dashboard/Admin/ContentManagement";
 import AddBlog from "../pages/Dashboard/Admin/AddBlog";
+import AdminRoute from "./AdminRoute";
+import VolunteerRoute from "./VolunteerRoute";
 
 export const router = createBrowserRouter([
   {
@@ -63,19 +65,35 @@ export const router = createBrowserRouter([
       },
       {
         path: "all-users",
-        element: <AllUser />,
+        element: (
+          <AdminRoute>
+            <AllUser />
+          </AdminRoute>
+        ),
       },
       {
         path: "all-blood-donation-request",
-        element: <AllDonationRequests />,
+        element: (
+          <VolunteerRoute>
+            <AllDonationRequests />
+          </VolunteerRoute>
+        ),
       },
       {
         path: "content-management",
-        element: <ContentManagement />,
+        element: (
+          <VolunteerRoute>
+            <ContentManagement />
+          </VolunteerRoute>
+        ),
       },
       {
         path: "content-management/add-blog",
-        element: <AddBlog />,
+        element: (
+          <VolunteerRoute>
+            <AddBlog />
+          </VolunteerRoute>
+        ),
       },
     ],
   },
