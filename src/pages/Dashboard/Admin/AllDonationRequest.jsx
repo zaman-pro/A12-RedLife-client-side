@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import useAxiosPublic from "../../hooks/useAxiosPublic";
-import Loading from "../../components/Shared/Loading/Loading";
-import useGeoData from "../../hooks/useGeoData";
-import StatusFilter from "../../components/Dashboard/StatusFilter";
-import PaginationControls from "../../components/Dashboard/PaginationControls";
-import DonationTable from "../../components/Dashboard/DonationTable";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import Loading from "../../../components/Shared/Loading/Loading";
+import useGeoData from "../../../hooks/useGeoData";
+import StatusFilter from "../../../components/Dashboard/StatusFilter";
+import PaginationControls from "../../../components/Dashboard/PaginationControls";
+import DonationTable from "../../../components/Dashboard/DonationTable";
 
 const AllDonationRequests = () => {
   const axiosPublic = useAxiosPublic();
@@ -122,7 +122,11 @@ const AllDonationRequests = () => {
 
       {/* Filter + Pagination Controls */}
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-        <StatusFilter filter={filter} onChange={setFilter} />
+        <StatusFilter
+          filter={filter}
+          onChange={setFilter}
+          filterType="donation"
+        />
         <PaginationControls
           itemPerPage={itemPerPage}
           setItemPerPage={(num) => {

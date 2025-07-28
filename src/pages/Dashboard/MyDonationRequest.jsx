@@ -130,7 +130,11 @@ const MyDonationRequest = () => {
       <h1 className="text-4xl font-bold text-center">My Donation Requests</h1>
 
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-        <StatusFilter filter={filter} onChange={setFilter} />
+        <StatusFilter
+          filter={filter}
+          onChange={setFilter}
+          filterType="donation"
+        />
         <PaginationControls
           itemPerPage={itemPerPage}
           setItemPerPage={(num) => {

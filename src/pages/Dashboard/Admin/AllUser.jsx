@@ -78,7 +78,7 @@ const AllUser = () => {
       <h1 className="text-4xl font-bold text-center">All Users</h1>
 
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-        <StatusFilter filter={filter} onChange={setFilter} isUser />
+        <StatusFilter filter={filter} onChange={setFilter} filterType="user" />
         <PaginationControls
           itemPerPage={itemPerPage}
           setItemPerPage={(num) => {

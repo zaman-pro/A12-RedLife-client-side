@@ -10,7 +10,9 @@ import PrivateRoute from "./PrivateRoute";
 import CreateDonationRequest from "../pages/Dashboard/CreateDonationRequest";
 import MyDonationRequest from "../pages/Dashboard/MyDonationRequest";
 import AllUser from "../pages/Dashboard/Admin/AllUser";
-import AllDonationRequests from "../pages/Dashboard/AllDonationRequest";
+import AllDonationRequests from "../pages/Dashboard/Admin/AllDonationRequest";
+import ContentManagement from "../pages/Dashboard/Admin/ContentManagement";
+import AddBlog from "../pages/Dashboard/Admin/AddBlog";
 
 export const router = createBrowserRouter([
   {
@@ -66,6 +68,14 @@ export const router = createBrowserRouter([
       {
         path: "all-blood-donation-request",
         element: <AllDonationRequests />,
+      },
+      {
+        path: "content-management",
+        element: <ContentManagement />,
+      },
+      {
+        path: "content-management/add-blog",
+        element: <AddBlog />,
       },
     ],
   },
