@@ -122,6 +122,8 @@ const DashboardHome = () => {
           onDelete={handleDelete}
           onStatusChange={handleStatusChange}
           getLocation={getLocation}
+          role={role}
+          currentUserEmail={user?.email}
         />
       ) : (
         <div className="text-center py-10 text-gray-500">

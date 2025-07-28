@@ -9,11 +9,13 @@ import StatusFilter from "../../../components/Dashboard/StatusFilter";
 import PaginationControls from "../../../components/Dashboard/PaginationControls";
 import DonationTable from "../../../components/Dashboard/DonationTable";
 import useRole from "../../../hooks/useRole";
+import useAuth from "../../../hooks/useAuth";
 
 const AllDonationRequests = () => {
   const axiosPublic = useAxiosPublic();
   const { districts, upazilas } = useGeoData();
   const { role } = useRole();
+  const { user } = useAuth();
   const [filter, setFilter] = useState("");
   const [itemCount, setItemCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -161,6 +163,7 @@ const AllDonationRequests = () => {
           onStatusChange={handleStatusChange}
           getLocation={getLocation}
           role={role}
+          currentUserEmail={user?.email}
         />
       )}
     </div>

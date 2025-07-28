@@ -9,13 +9,14 @@ import Loading from "../../components/Shared/Loading/Loading";
 import StatusFilter from "../../components/Dashboard/StatusFilter";
 import PaginationControls from "../../components/Dashboard/PaginationControls";
 import DonationTable from "../../components/Dashboard/DonationTable";
+import useRole from "../../hooks/useRole";
 
 const MyDonationRequest = () => {
   const [filter, setFilter] = useState("");
   const [itemCount, setItemCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemPerPage, setItemPerPage] = useState(3);
-
+  const { role } = useRole();
   const { user } = useAuth();
   const axiosPublic = useAxiosPublic();
   const { districts, upazilas } = useGeoData();
@@ -163,6 +164,8 @@ const MyDonationRequest = () => {
           onDelete={handleDelete}
           onStatusChange={handleStatusChange}
           getLocation={getLocation}
+          role={role}
+          currentUserEmail={user?.email}
         />
       )}
     </div>
