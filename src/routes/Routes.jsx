@@ -15,6 +15,7 @@ import ContentManagement from "../pages/Dashboard/Admin/ContentManagement";
 import AddBlog from "../pages/Dashboard/Admin/AddBlog";
 import AdminRoute from "./AdminRoute";
 import VolunteerRoute from "./VolunteerRoute";
+import SearchPage from "../pages/Public/SearchPage";
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: "/search-donor",
+        element: <SearchPage />,
       },
       {
         path: "blog",
