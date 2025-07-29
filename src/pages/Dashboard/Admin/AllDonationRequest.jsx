@@ -78,8 +78,6 @@ const AllDonationRequests = () => {
 
   // Handle deletion
   const handleDelete = async (id) => {
-    if (role !== "admin") return;
-
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "This action cannot be undone!",

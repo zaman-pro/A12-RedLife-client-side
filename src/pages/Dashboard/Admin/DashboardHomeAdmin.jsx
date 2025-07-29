@@ -44,21 +44,33 @@ const DashboardHomeAdmin = () => {
     );
 
   return (
-    <div className="p-4 space-y-6">
-      {/* Welcome Section */}
-      <div className="bg-gradient-to-r from-base-100 to-blue-100 p-6 rounded-2xl shadow-lg text-center">
-        <h1 className="text-3xl font-bold mb-2">Welcome to Your Dashboard</h1>
-        <p className="text-lg text-gray-700 font-medium">
-          <span className="capitalize font-bold">{role}</span> :{" "}
-          {user?.displayName}
+    <div className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto">
+      {/* Welcome Section - Mobile First */}
+      <div className="bg-gradient-to-r from-base-100 to-blue-100 p-4 sm:p-6 rounded-xl md:rounded-2xl shadow-md text-center">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2">
+          Welcome to Your Dashboard
+        </h1>
+        <p className="sm:text-lg text-gray-700 font-bold">
+          <span
+            className={`capitalize font-bold ${
+              role === "admin"
+                ? "text-red-500"
+                : role === "volunteer"
+                ? "text-green-500"
+                : "text-gray-700"
+            }`}
+          >
+            {role}
+          </span>{" "}
+          : {user?.displayName}
         </p>
-        <p className="mt-1 text-sm text-gray-600">
+        <p className="mt-1 text-xs sm:text-sm text-gray-600">
           Real-time oversight of all RedLife activities
         </p>
       </div>
 
-      {/* Stats Section */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* Stats Section - Responsive Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         <StatCard
           icon={FaUsers}
           title="Total Donors"
