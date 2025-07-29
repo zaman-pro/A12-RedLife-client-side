@@ -51,50 +51,58 @@ const FundingPage = () => {
 
   return (
     <div className="p-6 space-y-8">
-      <h2 className="text-3xl font-bold text-center">Donate for a Cause</h2>
+      <h2 className="text-3xl font-bold text-center">
+        {isLoading
+          ? "Donate for a Cause"
+          : funds.length === 0
+          ? "No donation yet"
+          : "Donate for a Cause"}
+      </h2>
 
-      {!showPaymentForm ? (
-        <button
-          onClick={() => setShowPaymentForm(true)}
-          className="btn btn-secondary"
-        >
-          Give Fund
-        </button>
-      ) : (
-        <Elements stripe={stripePromise}>
-          <PaymentForm
-            user={user}
-            setShowPaymentForm={setShowPaymentForm}
-            refetch={refetch}
-          />
-        </Elements>
-      )}
-
-      <div className="divider before:bg-secondary after:bg-secondary text-xl font-bold my-10">
-        Donation History
+      <div className="flex justify-center">
+        {!showPaymentForm ? (
+          <button
+            onClick={() => setShowPaymentForm(true)}
+            className="btn btn-secondary"
+          >
+            Give Fund
+          </button>
+        ) : (
+          <div className="w-full max-w-xl">
+            <Elements stripe={stripePromise}>
+              <PaymentForm
+                user={user}
+                setShowPaymentForm={setShowPaymentForm}
+                refetch={refetch}
+              />
+            </Elements>
+          </div>
+        )}
       </div>
 
-      <div className="pt-6">
-        <PaginationControls
-          itemPerPage={itemPerPage}
-          setItemPerPage={setItemPerPage}
-          currentPage={currentPage}
-          totalPages={Math.ceil(totalCount / itemPerPage)}
-          onPageChange={handlePageChange}
-        />
-      </div>
+      {/* Donation History (only show if there are any donations) */}
+      {!isLoading && funds.length > 0 && (
+        <div>
+          <div className="divider before:bg-secondary after:bg-secondary text-xl font-bold my-10">
+            Donation History
+          </div>
 
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
+          <div className="pt-6">
+            <PaginationControls
+              itemPerPage={itemPerPage}
+              setItemPerPage={setItemPerPage}
+              currentPage={currentPage}
+              totalPages={Math.ceil(totalCount / itemPerPage)}
+              onPageChange={handlePageChange}
+            />
+          </div>
+
           <div className="overflow-x-auto">
             <table className="table w-full">
               <thead>
                 <tr>
                   <th>#</th>
                   <th>Name</th>
-
                   <th>Amount</th>
                   <th>Date</th>
                 </tr>
@@ -111,8 +119,11 @@ const FundingPage = () => {
               </tbody>
             </table>
           </div>
-        </>
+        </div>
       )}
+
+      {/* Optional: show loading spinner if needed */}
+      {isLoading && <Loading />}
     </div>
   );
 };

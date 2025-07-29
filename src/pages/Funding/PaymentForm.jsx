@@ -66,7 +66,7 @@ const PaymentForm = ({ user, setShowPaymentForm, refetch }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-4 max-w-md mx-auto border border-secondary/30 p-6 rounded-xl"
+      className="space-y-4 w-full bg-base-100 border border-secondary/30 p-6 rounded-xl shadow-md"
     >
       <input
         type="number"
