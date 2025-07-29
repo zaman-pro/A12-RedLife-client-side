@@ -1,14 +1,14 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import toast from "react-hot-toast";
+
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 
-const PaymentForm = () => {
+const PaymentForm = ({ user, setShowPaymentForm, refetch }) => {
   const stripe = useStripe();
   const elements = useElements();
   const axiosSecure = useAxiosSecure();
-  const { user } = useAuth();
 
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,8 +21,10 @@ const PaymentForm = () => {
     setLoading(true);
 
     try {
-      // Step 1: Create payment intent
-      const res = await axiosSecure.post("/create-payment-intent", { amount });
+      // Step 1: create payment intent
+      const res = await axiosSecure.post("/create-payment-intent", {
+        amount,
+      });
       const clientSecret = res.data.clientSecret;
 
       // Step 2: Confirm card payment
@@ -39,6 +41,7 @@ const PaymentForm = () => {
           donorEmail: user?.email,
           donorName: user?.displayName || "Anonymous",
           fundAmount: parseFloat(amount),
+          fundDate: new Date().toISOString(),
           transactionId: paymentResult.paymentIntent.id,
         };
 
@@ -46,38 +49,45 @@ const PaymentForm = () => {
         if (saveRes.data?.insertedId || saveRes.data?.result?.acknowledged) {
           toast.success("Thanks for your donation!");
           setAmount("");
+          refetch?.();
+          setShowPaymentForm(false);
         } else {
-          toast.error("Donation succeeded, but failed to save record.");
+          toast.error("Payment success but failed to record data.");
         }
       }
     } catch (err) {
       console.error(err);
-      toast.error("Donation failed");
+      toast.error("Something went wrong!");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-4 max-w-md mx-auto border border-secondary/30 p-6 rounded-xl"
+    >
       <input
         type="number"
         placeholder="Enter amount (USD)"
-        className="input w-full focus:outline-none"
+        className="input input-bordered w-full focus:outline-none"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
         required
         min={1}
       />
-      <div className="p-4 border rounded-md">
+
+      <div className="p-4 border rounded-md bg-base-100">
         <CardElement />
       </div>
+
       <button
         type="submit"
         className="btn btn-secondary w-full"
         disabled={!stripe || loading}
       >
-        {loading ? "Processing" : "Donate Now"}
+        {loading ? "Processing..." : "Donate Now"}
       </button>
     </form>
   );
