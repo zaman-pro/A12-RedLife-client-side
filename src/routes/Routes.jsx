@@ -19,6 +19,7 @@ import SearchPage from "../pages/Public/SearchPage";
 import BloodDonationRequests from "../pages/Public/BloodDonationRequests";
 import DonationRequestDetails from "../pages/Public/DonationRequestDetails";
 import BlogDetails from "../pages/Public/BlogDetails";
+import DonationRequestEdit from "../pages/Dashboard/DonationRequestEdit";
 
 export const router = createBrowserRouter([
   {
@@ -90,6 +91,10 @@ export const router = createBrowserRouter([
       {
         path: "donation-request/:id",
         element: <DonationRequestDetails />,
+      },
+      {
+        path: "edit-donation-request/:id",
+        element: <DonationRequestEdit />,
       },
       {
         path: "all-users",

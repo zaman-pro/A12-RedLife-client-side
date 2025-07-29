@@ -110,7 +110,7 @@ const DonationTable = ({
                     <button
                       className="btn btn-sm btn-warning text-white"
                       onClick={() =>
-                        navigate(`edit-donation-request/${req._id}`)
+                        navigate(`/dashboard/edit-donation-request/${req._id}`)
                       }
                     >
                       <FaEdit />
