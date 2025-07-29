@@ -1,12 +1,38 @@
-# React + Vite
+# RedLife - Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+RedLife is a full-featured blood donation management platform that helps bridge the gap between blood donors and recipients. It also includes role-based dashboards, a funding system, and content management features to streamline the blood donation process.
 
-Currently, two official plugins are available:
+## 🌐 Live Website
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🔗 [RedLife Live Site](https://b11a12-redlife-zaman-pro.netlify.app)
 
-## Expanding the ESLint configuration
+## 👤 Admin Credentials
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Email**: admin@redlife.com  
+- **Password**: Pa$$w0rd!!
+
+## 📌 Features
+
+1. 🔐 **Authentication System** — Email/password-based registration & login with role-based access control.
+2. 🩸 **Blood Donation Requests** — Donors can request blood; admins/volunteers can manage them.
+3. 🧑‍🤝‍🧑 **Role Management** — Admin can promote users to volunteers or other admins.
+4. 🚫 **User Blocking** — Admins can block/unblock users (blocked users cannot request donations).
+5. 📝 **Content Management System** — Admins and volunteers can write blogs with publish/unpublish options.
+6. 💳 **Stripe Integration** — Users can donate funds securely using Stripe.
+7. 📊 **Dashboard Statistics** — Admin dashboard shows total users, requests, and funds.
+8. 🔍 **Donor Search** — Users can search for donors by blood group, district, and upazila.
+9. 📱 **Fully Responsive** — Works seamlessly on desktop, tablet, and mobile devices.
+10. 🧠 **TanStack Query** — All GET requests use React Query for caching and state management.
+11. 📦 **Image Upload with imageBB** — Used for uploading avatars and blog thumbnails.
+12. ✅ **Persistent Login** — Private routes remain accessible even after refresh.
+13. 📅 **Pagination & Filtering** — Applied to all tables where data is listed.
+14. 🎉 **Toasts & Alerts** — SweetAlert2 and React Hot Toast used for feedback on all actions.
+
+## 🚀 Tech Stack
+
+- React.js + React Router
+- Tailwind CSS + DaisyUI
+- Firebase Auth
+- Stripe for payments
+- React Hook Form + Zod validation
+- TanStack React Query
