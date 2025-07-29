@@ -40,7 +40,7 @@ const Sidebar = () => {
   return (
     <aside>
       {/* Mobile Header */}
-      <div className="bg-base-100 text-base-content flex justify-between md:hidden">
+      <div className="bg-base-100 text-black flex justify-between md:hidden">
         <div className="block cursor-pointer p-4 font-bold">
           <Link to="/" className="btn btn-ghost text-xl">
             <img
@@ -77,7 +77,7 @@ const Sidebar = () => {
                   to="overview"
                   className={({ isActive }) =>
                     `flex items-center px-2 py-2 ${
-                      isActive ? "text-secondary" : "text-base-content"
+                      isActive ? "text-secondary" : "text-black"
                     }`
                   }
                 >
@@ -91,7 +91,7 @@ const Sidebar = () => {
                   to="profile"
                   className={({ isActive }) =>
                     `flex items-center px-2 py-2 ${
-                      isActive ? "text-secondary" : "text-base-content"
+                      isActive ? "text-secondary" : "text-black"
                     }`
                   }
                 >
@@ -105,7 +105,7 @@ const Sidebar = () => {
                   to="my-donation-requests"
                   className={({ isActive }) =>
                     `flex items-center px-2 py-2 ${
-                      isActive ? "text-secondary" : "text-base-content"
+                      isActive ? "text-secondary" : "text-black"
                     }`
                   }
                 >
@@ -119,7 +119,7 @@ const Sidebar = () => {
                   to="create-donation-request"
                   className={({ isActive }) =>
                     `flex items-center px-2 py-2 ${
-                      isActive ? "text-secondary" : "text-base-content"
+                      isActive ? "text-secondary" : "text-black"
                     }`
                   }
                 >
@@ -134,7 +134,7 @@ const Sidebar = () => {
                     to="all-users"
                     className={({ isActive }) =>
                       `flex items-center px-2 py-2 ${
-                        isActive ? "text-secondary" : "text-base-content"
+                        isActive ? "text-secondary" : "text-black"
                       }`
                     }
                   >
@@ -150,7 +150,7 @@ const Sidebar = () => {
                     to="all-blood-donation-request"
                     className={({ isActive }) =>
                       `flex items-center px-2 py-2 ${
-                        isActive ? "text-secondary" : "text-base-content"
+                        isActive ? "text-secondary" : "text-black"
                       }`
                     }
                   >
@@ -166,7 +166,7 @@ const Sidebar = () => {
                     to="content-management"
                     className={({ isActive }) =>
                       `flex items-center px-2 py-2 ${
-                        isActive ? "text-secondary" : "text-base-content"
+                        isActive ? "text-secondary" : "text-black"
                       }`
                     }
                   >

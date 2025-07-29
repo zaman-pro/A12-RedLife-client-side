@@ -11,10 +11,11 @@ import { RiHome4Line } from "react-icons/ri";
 import useAuth from "../../../hooks/useAuth";
 import { IoMoonOutline, IoSunnyOutline } from "react-icons/io5";
 import Logo from "../Logo";
+import Loading from "../Loading/Loading";
 
 const Navbar = () => {
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const { user, loading, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
@@ -124,6 +125,8 @@ const Navbar = () => {
       </li>
     </>
   );
+
+  if (loading) return <Loading />;
 
   return (
     <div className="navbar h-16 bg-base-100 fixed z-50 top-0 left-1/2 -translate-x-1/2 rounded-md px-4 lg:px-5 max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-2">
