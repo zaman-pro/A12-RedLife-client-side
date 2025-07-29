@@ -72,7 +72,11 @@ const DashboardProfile = () => {
   };
 
   const onSubmit = async (data) => {
-    const { email, _id, ...payload } = data;
+    const { email, _id, phone, ...payload } = data;
+
+    if (phone && /^\d{11}$/.test(phone)) {
+      payload.phone = phone;
+    }
 
     try {
       // 1. Update database
@@ -208,10 +212,18 @@ const DashboardProfile = () => {
               <label className="label mb-2">Phone</label>
               <input
                 type="text"
-                {...register("phone")}
-                readOnly={!isEditing}
+                {...register("phone", {
+                  validate: (value) => {
+                    if (!value) return true; // allow empty
+                    return /^\d{11}$/.test(value) || "Phone must be 11 digits";
+                  },
+                })}
+                disabled={!isEditing}
                 className="input input-bordered w-full focus:outline-none"
               />
+              {errors.phone && (
+                <p className="text-red-500 text-xs">{errors.phone.message}</p>
+              )}
             </div>
           </div>
 
