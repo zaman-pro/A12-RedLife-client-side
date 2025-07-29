@@ -1,23 +1,22 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FaEdit, FaSave } from "react-icons/fa";
-import { useNavigate } from "react-router";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
-import { imageUpload } from "../../api/utils";
-import Loading from "../../components/Shared/Loading/Loading";
 import useGeoData from "../../hooks/useGeoData";
 import useFilteredUpazilas from "../../hooks/useFilteredUpazilas";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { imageUpload } from "../../api/utils";
 import useRole from "../../hooks/useRole";
+import Loading from "../../components/Shared/Loading/Loading";
+
+const DEFAULT_AVATAR = "https://i.ibb.co/Q3bDs8Rx/test-avatar-2.png";
 
 const DashboardProfile = () => {
-  const { user, updateUser, setUser } = useAuth();
+  const { user, setUser, updateUser } = useAuth();
   const { role } = useRole();
   const axiosSecure = useAxiosSecure();
-  const navigate = useNavigate();
-
-  const DEFAULT_AVATAR = "https://i.ibb.co/Q3bDs8Rx/test-avatar-2.png";
+  const { districts, upazilas } = useGeoData();
 
   const [isEditing, setIsEditing] = useState(false);
   const [avatarPreview, setAvatarPreview] = useState(DEFAULT_AVATAR);
@@ -26,52 +25,36 @@ const DashboardProfile = () => {
   const {
     register,
     handleSubmit,
+    reset,
     watch,
     setValue,
-    reset,
     formState: { errors },
   } = useForm();
 
   const selectedDistrict = watch("district");
-  const selectedUpazila = watch("upazila");
 
-  // Load districts and upazilas
-  const { districts, upazilas } = useGeoData();
-
-  // Filter upazilas based on selected district
   const filteredUpazilas = useFilteredUpazilas({
     selectedDistrict,
-    selectedUpazila,
     upazilas,
     setValue,
   });
 
-  // Load user profile after geo data
   useEffect(() => {
-    if (!user?.email || upazilas.length === 0) return;
+    if (!user?.email) return;
 
-    const fetchUser = async () => {
+    (async () => {
       try {
-        const res = await axiosSecure.get(`/user/${user.email}`);
-        const userData = res.data;
-
-        setAvatarPreview(userData.photo || DEFAULT_AVATAR);
-
-        reset({
-          ...userData,
-          district: userData.district?.toString() || "",
-          upazila: userData.upazila?.toString() || "",
-        });
-      } catch (err) {
-        toast.error("Failed to load profile");
-        console.error("User load error:", err);
+        const { data } = await axiosSecure.get(`/user/${user.email}`);
+        reset(data);
+        setAvatarPreview(data.photo || DEFAULT_AVATAR);
+      } catch (error) {
+        toast.error("Failed to load profile data.");
+        console.error(error);
       } finally {
         setLoading(false);
       }
-    };
-
-    fetchUser();
-  }, [user?.email, upazilas, axiosSecure, reset]);
+    })();
+  }, [user?.email, axiosSecure, reset]);
 
   const handleAvatarUpload = async (e) => {
     const file = e.target.files?.[0];
@@ -92,7 +75,7 @@ const DashboardProfile = () => {
     const { email, _id, ...payload } = data;
 
     try {
-      // 1. Update in database
+      // 1. Update database
       await axiosSecure.put(`/user/${user.email}`, payload);
 
       // 2. Update Firebase Auth profile
@@ -107,18 +90,18 @@ const DashboardProfile = () => {
 
       toast.success("Profile updated");
       setIsEditing(false);
-      navigate("/dashboard/profile");
+      // navigate("/dashboard/profile");
     } catch (err) {
       toast.error("Update failed");
       console.error(err);
     }
   };
 
-  if (loading) return <Loading />;
+  if (loading || !user) return <Loading />;
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-base-200">
-      <div className="w-full max-w-3xl p-6 bg-base-100 shadow-lg rounded-lg">
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="w-full max-w-7xl p-6 bg-base-100 shadow-lg rounded-lg">
         <div className="flex justify-end mb-4">
           <button
             onClick={
@@ -155,8 +138,9 @@ const DashboardProfile = () => {
             )}
           </div>
 
+          {/* Role below avatar */}
           <p
-            className={`capitalize text-xl text-gray-700 font-bold mt-3 ${
+            className={`capitalize text-xl font-bold mt-3 ${
               role === "admin"
                 ? "text-red-500"
                 : role === "volunteer"
@@ -188,7 +172,7 @@ const DashboardProfile = () => {
             <label className="label mb-2">Email</label>
             <input
               type="email"
-              value={user?.email || ""}
+              value={user.email}
               readOnly
               className="input input-bordered w-full focus:outline-none"
             />
@@ -231,7 +215,7 @@ const DashboardProfile = () => {
             </div>
           </div>
 
-          {/* District */}
+          {/* District & Upazila */}
           <div className="flex flex-col lg:flex-row gap-6">
             <div className="w-full">
               <label className="label mb-2">District</label>
@@ -254,15 +238,18 @@ const DashboardProfile = () => {
               )}
             </div>
 
-            {/* Upazila */}
             <div className="w-full">
               <label className="label mb-2">Upazila</label>
               <select
                 {...register("upazila", { required: "Upazila is required" })}
-                disabled={!isEditing}
+                disabled={!isEditing || !selectedDistrict}
                 className="select select-bordered w-full focus:outline-none"
               >
-                <option value="">Select Upazila</option>
+                {!selectedDistrict ? (
+                  <option value="">Select a district first</option>
+                ) : (
+                  <option value="">Select Upazila</option>
+                )}
                 {filteredUpazilas.map((u) => (
                   <option key={u.id} value={u.id}>
                     {u.name}
