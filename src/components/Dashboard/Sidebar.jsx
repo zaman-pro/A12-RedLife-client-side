@@ -11,6 +11,7 @@ import useRole from "../../hooks/useRole";
 import Logo from "../Shared/Logo";
 import { FiList, FiPlusCircle, FiUser } from "react-icons/fi";
 import { IoExitOutline } from "react-icons/io5";
+import toast from "react-hot-toast";
 
 const Sidebar = () => {
   const { logout } = useAuth();
@@ -19,6 +20,19 @@ const Sidebar = () => {
 
   const handleToggle = () => {
     setActive(!isActive);
+  };
+
+  const handleLogout = () => {
+    toast.dismiss();
+    const toastId = toast.loading("Logging out");
+
+    logout()
+      .then(() => {
+        toast.success("Logout successful", { id: toastId });
+      })
+      .catch(() => {
+        toast.error("Logout failed. Please try again", { id: toastId });
+      });
   };
 
   if (!role) return null;
@@ -165,7 +179,7 @@ const Sidebar = () => {
               {/* Mobile Logout */}
               <li
                 className="bg-gradient-to-r from-red-500/10 to-pink-500/10 rounded-lg hover:shadow-md transition-all block md:hidden"
-                onClick={logout}
+                onClick={handleLogout}
               >
                 <div className="flex items-center px-2 py-2 text-red-500 hover:text-red-600 cursor-pointer">
                   <IoExitOutline className="mr-3 text-xl" />
@@ -179,7 +193,7 @@ const Sidebar = () => {
         {/* Desktop Logout */}
         <div className="hidden md:block">
           <button
-            onClick={logout}
+            onClick={handleLogout}
             className="w-full flex items-center px-2 py-2 mt-2 rounded-lg bg-gradient-to-r from-red-500/10 to-pink-500/10 hover:shadow-md text-red-500 hover:text-red-600 transition-all"
           >
             <IoExitOutline className="mr-3 text-xl" />
