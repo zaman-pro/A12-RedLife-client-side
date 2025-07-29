@@ -1,39 +1,41 @@
 import { useState } from "react";
 import { GrLogout } from "react-icons/gr";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaUsers, FaTasks } from "react-icons/fa";
+import {
+  MdOutlineDashboardCustomize,
+  MdOutlineManageSearch,
+} from "react-icons/md";
 import { Link, NavLink } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import useRole from "../../hooks/useRole";
 import Logo from "../Shared/Logo";
+import { FiList, FiPlusCircle, FiUser } from "react-icons/fi";
+import { IoExitOutline } from "react-icons/io5";
 
 const Sidebar = () => {
   const { logout } = useAuth();
   const [isActive, setActive] = useState(true);
-
   const { role } = useRole();
 
   const handleToggle = () => {
     setActive(!isActive);
   };
 
-  if (!role) return;
+  if (!role) return null;
 
   return (
     <aside>
-      {/* sm device menu bar with logo */}
+      {/* Mobile Header */}
       <div className="bg-base-100 text-base-content flex justify-between md:hidden">
-        <div>
-          <div className="block cursor-pointer p-4 font-bold">
-            <Link to="/" className="btn btn-ghost text-xl">
-              <img
-                className="h-full"
-                src="https://i.ibb.co/wrY5MYL0/red-life-icon.png"
-                alt="logo"
-              />
-            </Link>
-          </div>
+        <div className="block cursor-pointer p-4 font-bold">
+          <Link to="/" className="btn btn-ghost text-xl">
+            <img
+              className="h-full"
+              src="https://i.ibb.co/wrY5MYL0/red-life-icon.png"
+              alt="logo"
+            />
+          </Link>
         </div>
-
         <button
           onClick={handleToggle}
           className="mobile-menu-button p-4 focus:outline-none focus:bg-base-300"
@@ -46,75 +48,142 @@ const Sidebar = () => {
       <div
         className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-base-200 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
           isActive && "-translate-x-full"
-        }  md:translate-x-0 transition duration-200 ease-in-out`}
+        } md:translate-x-0 transition duration-200 ease-in-out`}
       >
         <div>
-          <div>
-            <div className="w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center mx-auto">
-              {/* <Link to="/" className="btn btn-ghost text-xl">
-                <img
-                  className="h-full"
-                  src="https://i.ibb.co/wrY5MYL0/red-life-icon.png"
-                  alt="logo"
-                />
-              </Link> */}
-
-              <Logo />
-            </div>
+          <div className="w-full hidden md:flex px-4 py-2 justify-center items-center mx-auto">
+            <Logo />
           </div>
 
-          {/* sidebar Items */}
+          {/* Menu Items */}
           <div className="flex flex-col justify-between flex-1 mt-6">
-            <ul className="menu bg-base-200 rounded-box space-y-2">
-              <li className="border rounded">
-                <NavLink to="overview">Overview</NavLink>
+            <ul className="space-y-3">
+              <li className="bg-gradient-to-r from-blue-100 via-blue-50 to-blue-100 rounded-lg hover:shadow-md transition-all">
+                <NavLink
+                  to="overview"
+                  className={({ isActive }) =>
+                    `flex items-center px-2 py-2 ${
+                      isActive ? "text-secondary" : "text-base-content"
+                    }`
+                  }
+                >
+                  <MdOutlineDashboardCustomize className="mr-3 text-lg" />
+                  Overview
+                </NavLink>
               </li>
 
-              <li className="border rounded">
-                <NavLink to="profile">Profile</NavLink>
+              <li className="bg-gradient-to-r from-blue-100 via-blue-50 to-blue-100 rounded-lg hover:shadow-md transition-all">
+                <NavLink
+                  to="profile"
+                  className={({ isActive }) =>
+                    `flex items-center px-2 py-2 ${
+                      isActive ? "text-secondary" : "text-base-content"
+                    }`
+                  }
+                >
+                  <FiUser className="mr-3 text-lg" />
+                  Profile
+                </NavLink>
               </li>
 
-              <li className="border rounded">
-                <NavLink to="my-donation-requests">My Donation Request</NavLink>
+              <li className="bg-gradient-to-r from-blue-100 via-blue-50 to-blue-100 rounded-lg hover:shadow-md transition-all">
+                <NavLink
+                  to="my-donation-requests"
+                  className={({ isActive }) =>
+                    `flex items-center px-2 py-2 ${
+                      isActive ? "text-secondary" : "text-base-content"
+                    }`
+                  }
+                >
+                  <FiList className="mr-3 text-lg" />
+                  My Donation Requests
+                </NavLink>
               </li>
 
-              <li className="border rounded">
-                <NavLink to="create-donation-request">
-                  Create Donation Request
+              <li className="bg-gradient-to-r from-blue-100 via-blue-50 to-blue-100 rounded-lg hover:shadow-md transition-all">
+                <NavLink
+                  to="create-donation-request"
+                  className={({ isActive }) =>
+                    `flex items-center px-2 py-2 ${
+                      isActive ? "text-secondary" : "text-base-content"
+                    }`
+                  }
+                >
+                  <FiPlusCircle className="mr-3 text-lg" />
+                  Create Request
                 </NavLink>
               </li>
 
               {role === "admin" && (
-                <li className="border rounded">
-                  <NavLink to="all-users">All User</NavLink>
-                </li>
-              )}
-
-              {(role === "admin" || role === "volunteer") && (
-                <li className="border rounded">
-                  <NavLink to="all-blood-donation-request">
-                    All Donation Request
+                <li className="bg-gradient-to-r from-blue-100 via-blue-50 to-blue-100 rounded-lg hover:shadow-md transition-all">
+                  <NavLink
+                    to="all-users"
+                    className={({ isActive }) =>
+                      `flex items-center px-2 py-2 ${
+                        isActive ? "text-secondary" : "text-base-content"
+                      }`
+                    }
+                  >
+                    <FaUsers className="mr-3 text-lg" />
+                    All Users
                   </NavLink>
                 </li>
               )}
 
               {(role === "admin" || role === "volunteer") && (
-                <li className="border rounded">
-                  <NavLink to="content-management">Content Management</NavLink>
+                <li className="bg-gradient-to-r from-blue-100 via-blue-50 to-blue-100 rounded-lg hover:shadow-md transition-all">
+                  <NavLink
+                    to="all-blood-donation-request"
+                    className={({ isActive }) =>
+                      `flex items-center px-2 py-2 ${
+                        isActive ? "text-secondary" : "text-base-content"
+                      }`
+                    }
+                  >
+                    <FaTasks className="mr-3 text-lg" />
+                    All Donation Requests
+                  </NavLink>
                 </li>
               )}
+
+              {(role === "admin" || role === "volunteer") && (
+                <li className="bg-gradient-to-r from-blue-100 via-blue-50 to-blue-100 rounded-lg hover:shadow-md transition-all">
+                  <NavLink
+                    to="content-management"
+                    className={({ isActive }) =>
+                      `flex items-center px-2 py-2 ${
+                        isActive ? "text-secondary" : "text-base-content"
+                      }`
+                    }
+                  >
+                    <MdOutlineManageSearch className="mr-3 text-lg" />
+                    Content Management
+                  </NavLink>
+                </li>
+              )}
+
+              {/* Mobile Logout */}
+              <li
+                className="bg-gradient-to-r from-red-500/10 to-pink-500/10 rounded-lg hover:shadow-md transition-all block md:hidden"
+                onClick={logout}
+              >
+                <div className="flex items-center px-2 py-2 text-red-500 hover:text-red-600 cursor-pointer">
+                  <IoExitOutline className="mr-3 text-xl" />
+                  <span className="font-medium">Logout</span>
+                </div>
+              </li>
             </ul>
           </div>
         </div>
 
-        <div>
-          <hr />
+        {/* Desktop Logout */}
+        <div className="hidden md:block">
           <button
             onClick={logout}
-            className="flex w-full items-center px-4 py-2 mt-5 text-base-content hover:bg-base-300 hover:text-base-content transition-colors duration-300 transform"
+            className="w-full flex items-center px-2 py-2 mt-2 rounded-lg bg-gradient-to-r from-red-500/10 to-pink-500/10 hover:shadow-md text-red-500 hover:text-red-600 transition-all"
           >
-            <GrLogout className="w-5 h-5" />
-            <span className="mx-4 font-medium">Logout</span>
+            <IoExitOutline className="mr-3 text-xl" />
+            <span className="font-medium">Logout</span>
           </button>
         </div>
       </div>
