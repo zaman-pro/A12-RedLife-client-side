@@ -20,6 +20,7 @@ import BloodDonationRequests from "../pages/Public/BloodDonationRequests";
 import DonationRequestDetails from "../pages/Public/DonationRequestDetails";
 import BlogDetails from "../pages/Public/BlogDetails";
 import DonationRequestEdit from "../pages/Dashboard/DonationRequestEdit";
+import FundingPage from "../pages/Funding/FundingPage";
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +46,14 @@ export const router = createBrowserRouter([
       {
         path: "/blogs/:id",
         element: <BlogDetails />,
+      },
+      {
+        path: "/funding",
+        element: (
+          <PrivateRoute>
+            <FundingPage />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/auth",

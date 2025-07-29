@@ -164,7 +164,7 @@ const DashboardProfile = () => {
               type="text"
               {...register("name", { required: "Name is required" })}
               readOnly={!isEditing}
-              className="input input-bordered w-full focus:outline-none"
+              className="input w-full focus:outline-none"
             />
             {errors.name && (
               <p className="text-red-500 text-xs">{errors.name.message}</p>
@@ -178,7 +178,7 @@ const DashboardProfile = () => {
               type="email"
               value={user.email}
               readOnly
-              className="input input-bordered w-full focus:outline-none"
+              className="input w-full focus:outline-none"
             />
           </div>
 
@@ -219,7 +219,7 @@ const DashboardProfile = () => {
                   },
                 })}
                 disabled={!isEditing}
-                className="input input-bordered w-full focus:outline-none"
+                className="input w-full focus:outline-none"
               />
               {errors.phone && (
                 <p className="text-red-500 text-xs">{errors.phone.message}</p>

@@ -133,14 +133,14 @@ const AddBlog = () => {
           placeholder="Blog Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="input input-bordered w-full"
+          className="input w-full focus:outline-none"
         />
 
         <input
           type="file"
           accept="image/*"
           onChange={handleThumbnailUpload}
-          className="file-input file-input-bordered w-full"
+          className="file-input w-full focus:outline-none"
         />
 
         <JoditEditor value={content} onChange={setContent} />
