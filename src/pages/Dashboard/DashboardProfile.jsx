@@ -9,9 +9,11 @@ import { imageUpload } from "../../api/utils";
 import Loading from "../../components/Shared/Loading/Loading";
 import useGeoData from "../../hooks/useGeoData";
 import useFilteredUpazilas from "../../hooks/useFilteredUpazilas";
+import useRole from "../../hooks/useRole";
 
 const DashboardProfile = () => {
   const { user, updateUser, setUser } = useAuth();
+  const { role } = useRole();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
@@ -152,6 +154,18 @@ const DashboardProfile = () => {
               </label>
             )}
           </div>
+
+          <p
+            className={`capitalize text-xl text-gray-700 font-bold mt-3 ${
+              role === "admin"
+                ? "text-red-500"
+                : role === "volunteer"
+                ? "text-green-500"
+                : "text-gray-700"
+            }`}
+          >
+            {role}
+          </p>
         </div>
 
         <form className="mt-6 space-y-4">
