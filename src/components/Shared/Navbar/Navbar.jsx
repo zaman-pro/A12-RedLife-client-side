@@ -239,6 +239,17 @@ const Navbar = () => {
                     {dropLinks}
 
                     <li>
+                      <NavLink
+                        to="/dashboard"
+                        className={({ isActive }) =>
+                          isActive ? "font-semibold text-primary" : ""
+                        }
+                      >
+                        Dashboard
+                      </NavLink>
+                    </li>
+
+                    <li>
                       <button
                         onClick={handleLogout}
                         className="btn btn-xs btn-secondary rounded mt-1"
