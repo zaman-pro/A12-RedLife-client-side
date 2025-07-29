@@ -1,7 +1,8 @@
 import React from "react";
+import DonationRequestForm from "./DonationRequestForm";
 
 const DonationRequestEdit = () => {
-  return <div>this is DonationRequestEdit</div>;
+  return <DonationRequestForm isEdit />;
 };
 
 export default DonationRequestEdit;
