@@ -44,7 +44,7 @@ const ContactUs = () => {
               value={form.name}
               onChange={handleChange}
               required
-              className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none"
             />
 
             <input
@@ -54,7 +54,7 @@ const ContactUs = () => {
               value={form.email}
               onChange={handleChange}
               required
-              className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none"
             />
 
             <textarea
@@ -64,12 +64,12 @@ const ContactUs = () => {
               onChange={handleChange}
               required
               rows="5"
-              className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none"
             />
 
             <button
               type="submit"
-              className="w-full bg-[#176AE5] hover:bg-blue-800 transition text-white font-semibold py-3 px-6 rounded"
+              className="w-full bg-secondary hover:bg-accent transition text-white font-semibold py-3 px-6 rounded"
             >
               Send Message
             </button>
@@ -77,7 +77,7 @@ const ContactUs = () => {
         </div>
 
         {/* Contact Information */}
-        <div className="flex flex-col justify-center items-center bg-base-200 shadow-xl p-6 rounded-lg hover:shadow-lg hover:shadow-accent transition-shadow duration-300">
+        <div className="flex flex-col justify-start items-center bg-base-200 shadow-xl p-6 rounded-lg hover:shadow-lg hover:shadow-accent transition-shadow duration-300">
           <div>
             <h3 className="text-2xl font-semibold mb-6">Connect With Us</h3>
 
@@ -102,7 +102,11 @@ const ContactUs = () => {
               <div className="shrink-0 min-w-[1.5rem] h-6 mr-4 flex items-center justify-center transition-transform duration-300 ease-in-out group-hover:scale-110">
                 <FiMapPin className="w-full h-full" />
               </div>
-              <p className="text-lg">123 Donation Lane, Bogura, Bangladesh</p>
+              <p className="text-lg">
+                123 Donation Lane, Bogura,
+                <br />
+                Bangladesh
+              </p>
             </div>
           </div>
         </div>

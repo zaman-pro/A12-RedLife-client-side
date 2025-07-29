@@ -94,6 +94,37 @@ const Navbar = () => {
       });
   };
 
+  const dropLinks = (
+    <>
+      <li>
+        <NavLink
+          to="/dashboard/profile"
+          className={({ isActive }) =>
+            isActive ? "font-semibold text-primary" : ""
+          }
+        >
+          Profile
+        </NavLink>
+        <NavLink
+          to="/dashboard/my-donation-requests"
+          className={({ isActive }) =>
+            isActive ? "font-semibold text-primary" : ""
+          }
+        >
+          My Requests
+        </NavLink>
+        <NavLink
+          to="/dashboard/create-donation-request"
+          className={({ isActive }) =>
+            isActive ? "font-semibold text-primary" : ""
+          }
+        >
+          Create Request
+        </NavLink>
+      </li>
+    </>
+  );
+
   return (
     <div className="navbar h-16 bg-base-100 fixed z-50 top-0 left-1/2 -translate-x-1/2 rounded-md px-4 lg:px-5 max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-2">
       <div className="navbar-start">
@@ -205,20 +236,12 @@ const Navbar = () => {
                       mass: 0.8,
                     }}
                   >
-                    <li>
-                      <NavLink
-                        className="font-medium"
-                        to="/dashboard"
-                        onClick={() => setIsDropdownOpen(false)}
-                      >
-                        Dashboard
-                      </NavLink>
-                    </li>
+                    {dropLinks}
 
                     <li>
                       <button
                         onClick={handleLogout}
-                        className="btn btn-xs btn-secondary rounded"
+                        className="btn btn-xs btn-secondary rounded mt-1"
                       >
                         Logout
                       </button>

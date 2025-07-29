@@ -1,12 +1,17 @@
 import React from "react";
 import { Link } from "react-router";
 import banner from "../../../assets/banner.jpg";
+import useAuth from "../../../hooks/useAuth";
+import Loading from "../../../components/Shared/Loading/Loading";
 
 const Banner = () => {
+  const { user, loading } = useAuth();
+
+  if (loading) return <Loading />;
   return (
     <div
-      className="hero min-h-[70vh] bg-cover bg-center bg-no-repeat bg-gray-950/50 bg-blend-overlay rounded-xl mb-12 bg-[url(https://i.ibb.co/PsJ7WTSD/banner.jpg)]"
-      //   style={{ backgroundImage: `url(${banner})` }}
+      className="hero min-h-[70vh] bg-cover bg-center bg-no-repeat bg-gray-950/50 bg-blend-overlay rounded-xl mb-12"
+      style={{ backgroundImage: `url(${banner})` }}
     >
       <div className="hero-content text-neutral-content text-center">
         <div className="max-w-md">
@@ -18,7 +23,9 @@ const Banner = () => {
           <div className="flex gap-2 justify-center flex-wrap">
             <Link
               to="/auth?mode=register"
-              className="btn btn-outline text-lg sm:mr-4 mb-4 sm:mb-0"
+              className={`btn btn-outline text-lg sm:mr-4 mb-4 sm:mb-0 ${
+                user && "hidden"
+              }`}
             >
               Join As a Donor
             </Link>
