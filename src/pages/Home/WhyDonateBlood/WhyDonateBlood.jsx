@@ -1,6 +1,27 @@
 import React from "react";
 import BenefitItem from "./BenefitItem";
 
+const benefitData = [
+  {
+    title: "The Critical Need",
+    items: [
+      "1 donation can save up to 3 lives",
+      "Blood cannot be manufactured",
+      "Every 2 seconds someone needs blood",
+      "Only 3% of eligible people donate annually",
+    ],
+  },
+  {
+    title: "Benefits For You",
+    items: [
+      "Free health screening with each donation",
+      "Reduces risk of heart disease and cancer",
+      "Burns calories (about 650 per donation)",
+      "Gives you a sense of pride and purpose",
+    ],
+  },
+];
+
 const WhyDonateBlood = () => {
   return (
     <div className="bg-base-100 my-12 py-2">
@@ -13,30 +34,23 @@ const WhyDonateBlood = () => {
       </div>
 
       <div className="flex justify-between gap-8 flex-col md:flex-row">
-        {/* Left Column - The Need */}
-        <div className="">
-          <h3 className="text-2xl font-semibold mb-6">The Critical Need</h3>
-          <ul className="space-y-4">
-            <BenefitItem text="1 donation can save up to 3 lives" />
-            <BenefitItem text="Blood cannot be manufactured" />
-            <BenefitItem text="Every 2 seconds someone needs blood" />
-            <BenefitItem text="Only 3% of eligible people donate annually" />
-          </ul>
-        </div>
+        {benefitData.map((section, index) => (
+          <React.Fragment key={section.title}>
+            <div className="">
+              <h3 className="text-2xl font-semibold mb-6">{section.title}</h3>
+              <ul className="space-y-4">
+                {section.items.map((item, idx) => (
+                  <BenefitItem key={idx} text={item} />
+                ))}
+              </ul>
+            </div>
 
-        {/* Divider */}
-        <div className="divider divider-horizontal divider-secondary"></div>
-
-        {/* Right Column - Health Benefits */}
-        <div className="">
-          <h3 className="text-2xl font-semibold mb-6">Benefits For You</h3>
-          <ul className="space-y-4">
-            <BenefitItem text="Free health screening with each donation" />
-            <BenefitItem text="Reduces risk of heart disease and cancer" />
-            <BenefitItem text="Burns calories (about 650 per donation)" />
-            <BenefitItem text="Gives you a sense of pride and purpose" />
-          </ul>
-        </div>
+            {/* Add divider between sections except after last one */}
+            {index < benefitData.length - 1 && (
+              <div className="divider divider-horizontal divider-secondary hidden md:flex"></div>
+            )}
+          </React.Fragment>
+        ))}
       </div>
     </div>
   );
