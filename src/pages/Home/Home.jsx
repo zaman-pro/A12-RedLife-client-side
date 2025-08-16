@@ -6,6 +6,7 @@ import HowItWorks from "./HowItWorks/HowItWorks";
 import Reviews from "./Reviews/Reviews";
 import WhyDonateBlood from "./WhyDonateBlood/WhyDonateBlood";
 import BloodDonationBenefits from "./BloodDonationBenefits/BloodDonationBenefits";
+import Faq from "./Faq/Faq";
 
 const Home = () => {
   return (
@@ -17,6 +18,7 @@ const Home = () => {
       <WhyDonateBlood />
       <BloodDonationBenefits />
       <ContactUs />
+      <Faq />
     </div>
   );
 };
