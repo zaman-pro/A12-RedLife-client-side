@@ -4,6 +4,7 @@ import Features from "./Features/Features";
 import ContactUs from "./ContactUs/ContactUs";
 import HowItWorks from "./HowItWorks/HowItWorks";
 import Reviews from "./Reviews/Reviews";
+import WhyDonateBlood from "./WhyDonateBlood/WhyDonateBlood";
 
 const Home = () => {
   return (
@@ -12,6 +13,7 @@ const Home = () => {
       <Features />
       <HowItWorks />
       <Reviews />
+      <WhyDonateBlood />
       <ContactUs />
     </div>
   );
