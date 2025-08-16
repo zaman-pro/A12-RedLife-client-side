@@ -34,7 +34,7 @@ const HowItWorks = () => {
       <div className="text-center mb-8">
         <h2 className="text-4xl font-bold">How It Works?</h2>
         <p className="mt-4 text-lg">
-          Save lives. Build community. Make an impact with every donation.
+          Your blood can save a life. Here's how the process works.
         </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
