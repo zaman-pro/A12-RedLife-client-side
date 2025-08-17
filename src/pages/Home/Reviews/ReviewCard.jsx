@@ -17,7 +17,7 @@ const ReviewCard = ({ review }) => {
           />
         ))}
       </div>
-      <div className="border-t pt-3">
+      <div className="border-t pt-3 border-secondary/50">
         <p className="font-semibold">{review?.name}</p>
         <p className="text-sm text-gray-400">
           {review?.role} • {review?.date}

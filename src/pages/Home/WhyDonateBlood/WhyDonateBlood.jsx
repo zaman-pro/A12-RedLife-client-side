@@ -1,5 +1,6 @@
 import React from "react";
 import BenefitItem from "./BenefitItem";
+import SectionHeader from "../../../components/Shared/SectionHeader/SectionHeader";
 
 const benefitData = [
   {
@@ -25,13 +26,11 @@ const benefitData = [
 const WhyDonateBlood = () => {
   return (
     <div className="bg-base-100 my-12 py-2">
-      <div className="text-center mb-8">
-        <h2 className="text-4xl font-bold">Why Donate Blood?</h2>
-        <p className="mt-4 text-lg">
-          Discover how your simple act of kindness creates hope and healing in
-          your community.
-        </p>
-      </div>
+      <SectionHeader
+        title="Why Donate Blood?"
+        subtitle="Discover how your simple act of kindness creates hope and healing in
+          your community."
+      />
 
       <div className="flex justify-between gap-8 flex-col md:flex-row">
         {benefitData.map((section, index) => (

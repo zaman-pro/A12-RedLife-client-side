@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
+import SectionHeader from "../../../components/Shared/SectionHeader/SectionHeader";
 
 const HowItWorksData = [
   {
@@ -31,12 +32,11 @@ const HowItWorksData = [
 const HowItWorks = () => {
   return (
     <div className="bg-base-100 my-12 py-2">
-      <div className="text-center mb-8">
-        <h2 className="text-4xl font-bold">How It Works?</h2>
-        <p className="mt-4 text-lg">
-          Your blood can save a life. Here's how the process works.
-        </p>
-      </div>
+      <SectionHeader
+        title="How It Works?"
+        subtitle=" Your blood can save a life. Here's how the process works."
+      />
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="flex flex-col gap-4 justify-center">
           <h2 className="text-2xl md:text-4xl font-bold">
@@ -44,7 +44,7 @@ const HowItWorks = () => {
             <br />
             Help Save a Life
           </h2>
-          <p className="max-w-md">
+          <p className="text-sm max-w-md">
             We've made it incredibly easy for you to become a blood donor. No
             paperwork, no confusion, just a quick process that makes a real
             difference.
@@ -53,25 +53,26 @@ const HowItWorks = () => {
           <div>
             <Link
               to="/auth?mode=register"
-              className="btn btn-outline text-lg sm:mr-4 mb-4 sm:mb-0"
+              className="btn btn-secondary btn-outline text-lg sm:mr-4 mb-4 sm:mb-0"
             >
               Join As a Donor
             </Link>
           </div>
 
-          <small className="font-medium max-w-sm">
-            <span className="text-secondary">Bonus:</span> You'll get a donation
-            badge and thank-you message every time you donate blood.
+          <small className="text-xs font-medium max-w-sm">
+            <span className="text-secondary font-semibold">Bonus:</span> You'll
+            get a donation badge and thank-you message every time you donate
+            blood.
           </small>
         </div>
         <div className="flex justify-center flex-col gap-3">
           {HowItWorksData.map((step, idx) => (
             <div key={idx}>
-              <div className="p-2 border border-gray-200 rounded-lg">
+              <div className="px-4 py-2 border border-secondary/20 rounded-lg">
                 <h3 className="text-xl font-semibold">
                   {step.id}. {step.title}
                 </h3>
-                <p className="mt-2 line-clamp-2">{step.description}</p>
+                <p className="mt-2 line-clamp-2 text-sm">{step.description}</p>
               </div>
             </div>
           ))}

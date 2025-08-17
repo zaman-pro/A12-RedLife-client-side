@@ -1,6 +1,7 @@
 import React from "react";
 import FeatureCard from "./FeatureCard";
 import { featureData } from "./featureData";
+import SectionHeader from "../../../components/Shared/SectionHeader/SectionHeader";
 
 const Features = () => {
   // Split data into rows
@@ -18,12 +19,10 @@ const Features = () => {
 
   return (
     <div className="bg-base-100 my-12 py-2">
-      <div className="text-center mb-8">
-        <h2 className="text-4xl font-bold">Why Donate with Us?</h2>
-        <p className="mt-4 text-lg">
-          Save lives. Build community. Make an impact with every donation.
-        </p>
-      </div>
+      <SectionHeader
+        title="Why Donate with Us?"
+        subtitle="Save lives. Build community. Make an impact with every donation."
+      />
 
       <div className="space-y-6">
         {rows.map((row, idx) => (

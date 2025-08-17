@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaPlus, FaMinus } from "react-icons/fa";
+import SectionHeader from "../../../components/Shared/SectionHeader/SectionHeader";
 
 const Faq = () => {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -53,21 +54,19 @@ const Faq = () => {
 
   return (
     <div className="bg-base-100 my-12 py-2">
-      <div className="text-center mb-8">
-        <h2 className="text-4xl font-bold">Frequently Asked Questions</h2>
-        <p className="mt-4 text-lg">
-          Quick answers to common questions about blood donation.
-        </p>
-      </div>
+      <SectionHeader
+        title="Frequently Asked Questions"
+        subtitle=" Quick answers to common questions about blood donation."
+      />
 
       <div className="space-y-4">
         {faqs.map((faq, index) => (
           <div
             key={index}
-            className="border border-gray-200 rounded-lg overflow-hidden"
+            className="border border-secondary/10 rounded-lg overflow-hidden"
           >
             <button
-              className="w-full flex justify-between items-center p-4 text-left hover:bg-gray-50 transition-colors"
+              className="w-full flex justify-between items-center p-4 text-left hover:bg-secondary/20 transition-colors"
               onClick={() => toggleFAQ(index)}
             >
               <span className="font-medium text-lg">{faq.question}</span>

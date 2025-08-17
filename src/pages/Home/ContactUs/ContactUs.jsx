@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { FiPhone, FiMail, FiMapPin } from "react-icons/fi";
+import SectionHeader from "../../../components/Shared/SectionHeader/SectionHeader";
 
 const ContactUs = () => {
   const [form, setForm] = useState({
@@ -24,11 +25,14 @@ const ContactUs = () => {
   return (
     <div className="bg-base-100 my-12">
       <div className="text-center mb-8">
-        <h2 className="text-4xl font-bold">Contact Us</h2>
-        <p className="mt-4 text-lg">
-          Let us know how we can help! We welcome your questions and feedback.
-        </p>
+        <h2 className="text-4xl font-bold"></h2>
+        <p className="mt-4 text-lg"></p>
       </div>
+
+      <SectionHeader
+        title="Contact Us"
+        subtitle="Let us know how we can help! We welcome your questions and feedback."
+      />
 
       <div className="flex justify-between gap-8 flex-col md:flex-row">
         {/* Contact Form */}
@@ -44,7 +48,7 @@ const ContactUs = () => {
               value={form.name}
               onChange={handleChange}
               required
-              className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none"
+              className="w-full border border-secondary/30 rounded px-4 py-3 focus:outline-none"
             />
 
             <input
@@ -54,7 +58,7 @@ const ContactUs = () => {
               value={form.email}
               onChange={handleChange}
               required
-              className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none"
+              className="w-full border border-secondary/30 rounded px-4 py-3 focus:outline-none"
             />
 
             <textarea
@@ -64,7 +68,7 @@ const ContactUs = () => {
               onChange={handleChange}
               required
               rows="5"
-              className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none"
+              className="w-full border border-secondary/30 rounded px-4 py-3 focus:outline-none"
             />
 
             <button
@@ -88,7 +92,7 @@ const ContactUs = () => {
             {/* Phone */}
             <div className="flex items-center p-3 transition-all duration-300 ease-in-out group">
               <div className="shrink-0 min-w-[1.5rem] h-6 mr-4 flex items-center justify-center transition-transform duration-300 ease-in-out group-hover:scale-110">
-                <FiPhone className="w-full h-full" />
+                <FiPhone className="w-full h-full text-secondary" />
               </div>
               <p className="text-lg">+880-1234-567890</p>
             </div>
@@ -96,7 +100,7 @@ const ContactUs = () => {
             {/* Email */}
             <div className="flex items-center p-3 transition-all duration-300 ease-in-out group">
               <div className="shrink-0 min-w-[1.5rem] h-6 mr-4 flex items-center justify-center transition-transform duration-300 ease-in-out group-hover:scale-110">
-                <FiMail className="w-full h-full" />
+                <FiMail className="w-full h-full text-secondary" />
               </div>
               <p className="text-lg">support@redlife.com</p>
             </div>
@@ -104,7 +108,7 @@ const ContactUs = () => {
             {/* Address */}
             <div className="flex items-center p-3 transition-all duration-300 ease-in-out group">
               <div className="shrink-0 min-w-[1.5rem] h-6 mr-4 flex items-center justify-center transition-transform duration-300 ease-in-out group-hover:scale-110">
-                <FiMapPin className="w-full h-full" />
+                <FiMapPin className="w-full h-full text-secondary" />
               </div>
               <p className="text-lg">
                 123 Donation Lane, Bogura,

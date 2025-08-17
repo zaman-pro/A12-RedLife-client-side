@@ -2,6 +2,7 @@ import React from "react";
 import benefit1 from "../../../assets/benefit1.svg";
 import benefit2 from "../../../assets/benefit2.svg";
 import { FaCheck } from "react-icons/fa";
+import SectionHeader from "../../../components/Shared/SectionHeader/SectionHeader";
 
 const benefitData = [
   {
@@ -44,7 +45,7 @@ const benefitData = [
 const BenefitItem = ({ heading, description }) => {
   return (
     <li className="flex items-start">
-      <span className="mt-1 mr-3 text-red-500">
+      <span className="mt-1 mr-3 text-secondary">
         <FaCheck />
       </span>
       <div>
@@ -57,13 +58,11 @@ const BenefitItem = ({ heading, description }) => {
 const BloodDonationBenefits = () => {
   return (
     <div className="bg-base-100 my-12 py-2">
-      <div className="text-center mb-8">
-        <h2 className="text-4xl font-bold">Benefits of Donating Blood</h2>
-        <p className="mt-4 text-lg">
-          Every drop heals a life and you. Discover health benefits and the joy
-          of giving.
-        </p>
-      </div>
+      <SectionHeader
+        title="Benefits of Donating Blood"
+        subtitle=" Every drop heals a life and you. Discover health benefits and the joy
+          of giving."
+      />
 
       {/* Health Boosts Section */}
       <div className="flex flex-col md:flex-row gap-8 items-center">

@@ -25,11 +25,16 @@ const Banner = () => {
           <div className="flex gap-2 flex-wrap">
             <Link
               to="/auth?mode=register"
-              className={`btn btn-outline text-lg ${user && "hidden"}`}
+              className={`btn btn-secondary btn-outline text-lg ${
+                user && "hidden"
+              }`}
             >
               Join As a Donor
             </Link>
-            <Link to="/search-donor" className="btn btn-outline text-lg">
+            <Link
+              to="/search-donor"
+              className="btn btn-secondary btn-outline text-lg"
+            >
               Search Donors
             </Link>
           </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import ReviewCard from "./ReviewCard";
+import SectionHeader from "../../../components/Shared/SectionHeader/SectionHeader";
 
 const reviewsData = [
   {
@@ -31,12 +32,10 @@ const reviewsData = [
 const Reviews = () => {
   return (
     <div className="bg-base-100 my-12 py-2">
-      <div className="text-center mb-8">
-        <h2 className="text-4xl font-bold">Voices from Our Heroes</h2>
-        <p className="mt-4 text-lg">
-          Life saving stories from selfless donors and grateful recipients.
-        </p>
-      </div>
+      <SectionHeader
+        title="Voices from Our Heroes"
+        subtitle="Life saving stories from selfless donors and grateful recipients."
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {reviewsData.map((review, index) => (
