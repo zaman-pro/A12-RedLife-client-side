@@ -21,6 +21,7 @@ import DonationRequestDetails from "../pages/Public/DonationRequestDetails";
 import BlogDetails from "../pages/Public/BlogDetails";
 import DonationRequestEdit from "../pages/Dashboard/DonationRequestEdit";
 import FundingPage from "../pages/Funding/FundingPage";
+import AboutPage from "../pages/Public/AboutPage";
 
 export const router = createBrowserRouter([
   {
@@ -66,6 +67,10 @@ export const router = createBrowserRouter([
             <DonationRequestDetails />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/about-us",
+        Component: AboutPage,
       },
     ],
   },

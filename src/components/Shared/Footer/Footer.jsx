@@ -15,7 +15,7 @@ const Footer = () => {
           {/* About Section */}
           <div>
             <Logo />
-            <p className="">
+            <p className="mt-4">
               RedLife connects blood donors with people who need it. Simple.
               Safe. Life saving. Join us and help save lives.
             </p>
@@ -27,23 +27,21 @@ const Footer = () => {
               <h3 className="text-lg font-bold mb-4">Useful Links</h3>
               <ul>
                 <li className="mb-2">
-                  <Link to="/donation-requests" className="hover:underline">
+                  <Link
+                    to="/donation-requests"
+                    className="hover:text-secondary"
+                  >
                     Donation Requests
                   </Link>
                 </li>
                 <li className="mb-2">
-                  <Link to="/blog" className="hover:underline">
+                  <Link to="/blog" className="hover:text-secondary">
                     Blog
                   </Link>
                 </li>
                 <li className="mb-2">
-                  <Link to="/about-us" className="hover:underline">
+                  <Link to="/about-us" className="hover:text-secondary">
                     About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/contact-us" className="hover:underline">
-                    Contact Us
                   </Link>
                 </li>
               </ul>
@@ -59,7 +57,7 @@ const Footer = () => {
                   href="https://facebook.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-2xl"
+                  className="text-2xl hover:text-secondary"
                 >
                   <FaFacebookF />
                 </a>
@@ -67,7 +65,7 @@ const Footer = () => {
                   href="https://twitter.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-2xl"
+                  className="text-2xl hover:text-secondary"
                 >
                   <FaTwitter />
                 </a>
@@ -75,7 +73,7 @@ const Footer = () => {
                   href="https://instagram.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-2xl"
+                  className="text-2xl hover:text-secondary"
                 >
                   <FaInstagram />
                 </a>
@@ -83,7 +81,7 @@ const Footer = () => {
                   href="https://linkedin.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-2xl"
+                  className="text-2xl hover:text-secondary"
                 >
                   <FaLinkedin />
                 </a>
