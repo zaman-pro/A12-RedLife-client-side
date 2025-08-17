@@ -7,6 +7,7 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 import useAuth from "../../hooks/useAuth";
 import useGeoData from "../../hooks/useGeoData";
 import Loading from "../../components/Shared/Loading/Loading";
+import SectionHeader from "../../components/Shared/SectionHeader/SectionHeader";
 
 const DonationRequestDetails = () => {
   const { id } = useParams();
@@ -98,19 +99,17 @@ const DonationRequestDetails = () => {
   } = donationRequest;
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-7xl mx-auto">
       <button
-        className="btn btn-sm btn-outline flex items-center"
+        className="btn btn-secondary btn-sm btn-outline flex items-center"
         onClick={() => navigate(-1)}
       >
         <FaArrowLeft className="mr-2" /> Back
       </button>
 
-      <h1 className="text-4xl font-semibold text-center">
-        Donation Request Details
-      </h1>
+      <SectionHeader title=" Donation Request Details" />
 
-      <div className="bg-gradient-to-r from-base-100 to-blue-50 p-6 rounded-lg shadow space-y-4">
+      <div className="bg-gradient-to-r from-secondary/5 to-accent/5 p-6 rounded-lg shadow space-y-4">
         <div className="grid md:grid-cols-2 gap-4">
           <p>
             <strong>Requester Name:</strong> {requesterName}
@@ -165,9 +164,11 @@ const DonationRequestDetails = () => {
       {donationStatus === "pending" && user?.email && (
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className=" bg-gradient-to-r from-blue-50 to-base-100  p-6 rounded-lg shadow space-y-4"
+          className=" bg-gradient-to-r from-secondary/5 to-accent/5  p-6 rounded-lg shadow space-y-4"
         >
-          <h2 className="text-lg font-semibold">Confirm Donation</h2>
+          <h2 className="text-lg font-semibold text-secondary">
+            Confirm Donation
+          </h2>
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="label">Donor Name</label>
@@ -191,7 +192,7 @@ const DonationRequestDetails = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="btn bg-secondary text-white mt-4"
+            className="btn btn-secondary mt-4"
           >
             {isSubmitting ? "Submitting" : "Donate Now"}
           </button>

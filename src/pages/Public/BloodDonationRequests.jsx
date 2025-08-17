@@ -89,7 +89,7 @@ const BloodDonationRequests = () => {
               </tr>
             ) : (
               requests.map((req, idx) => (
-                <tr key={req._id} className="hover:bg-base-200 transition">
+                <tr key={req._id} className="hover:bg-secondary/20 transition">
                   <td>{idx + 1}</td>
                   <td>{req.recipientName}</td>
                   <td>
