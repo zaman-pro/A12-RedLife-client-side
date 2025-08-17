@@ -67,7 +67,7 @@ const HowItWorks = () => {
         <div className="flex justify-center flex-col gap-3">
           {HowItWorksData.map((step, idx) => (
             <div key={idx}>
-              <div className="p-2 border rounded-lg">
+              <div className="p-2 border border-gray-200 rounded-lg">
                 <h3 className="text-xl font-semibold">
                   {step.id}. {step.title}
                 </h3>

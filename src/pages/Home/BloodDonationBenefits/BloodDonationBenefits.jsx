@@ -69,7 +69,7 @@ const BloodDonationBenefits = () => {
       <div className="flex flex-col md:flex-row gap-8 items-center">
         <div className="md:w-1/2">
           <img
-            className="w-full"
+            className="w-md"
             src={benefit1}
             alt="Health benefits illustration"
           />
@@ -96,7 +96,7 @@ const BloodDonationBenefits = () => {
       <div className="flex flex-col md:flex-row gap-8 items-center">
         <div className="md:w-1/2 order-1 md:order-2">
           <img
-            className="w-full"
+            className="w-md"
             src={benefit2}
             alt="Emotional benefits illustration"
           />

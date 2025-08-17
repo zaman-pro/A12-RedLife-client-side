@@ -12,13 +12,13 @@ const Home = () => {
   return (
     <div>
       <Banner />
+      <WhyDonateBlood />
       <Features />
+      <BloodDonationBenefits />
       <HowItWorks />
       <Reviews />
-      <WhyDonateBlood />
-      <BloodDonationBenefits />
-      <ContactUs />
       <Faq />
+      <ContactUs />
     </div>
   );
 };
