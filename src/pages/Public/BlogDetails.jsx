@@ -42,7 +42,7 @@ function BlogDetails() {
   }
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-7xl mx-auto mb-12">
       <button
         className="btn btn-secondary btn-sm btn-outline flex items-center border"
         onClick={() => navigate(-1)}
