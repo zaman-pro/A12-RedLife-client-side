@@ -30,7 +30,7 @@ const BlogPage = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="mx-auto mb-12">
       <SectionHeader
         title="Our Blog"
         subtitle="  Read our blog to uncover the life-saving impact of blood donation."
@@ -47,7 +47,7 @@ const BlogPage = () => {
 
 // will extract to a component
 const BlogCardPublic = ({ blog }) => (
-  <div className="bg-base-200 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full hover:shadow-accent bg-gradient-to-r from-secondary/5 to-accent/5">
+  <div className="bg-base-200 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full hover:shadow-accent/50 bg-gradient-to-r from-secondary/5 to-accent/5">
     {blog.thumbnail && (
       <img
         src={blog.thumbnail}

@@ -50,7 +50,7 @@ const FundingPage = () => {
   };
 
   return (
-    <div className="p-6 space-y-8">
+    <div className="space-y-8 mb-12">
       <h2 className="text-4xl font-bold text-center text-secondary">
         {isLoading
           ? "Donate for a Cause"
@@ -83,7 +83,7 @@ const FundingPage = () => {
       {/* Donation History (only show if there are any donations) */}
       {!isLoading && funds.length > 0 && (
         <div>
-          <div className="divider before:bg-secondary after:bg-secondary text-xl font-bold my-10">
+          <div className="divider before:bg-secondary after:bg-secondary text-xl font-bold">
             Donation History
           </div>
 
@@ -97,9 +97,9 @@ const FundingPage = () => {
             />
           </div>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto bg-base-100 shadow rounded-lg">
             <table className="table w-full">
-              <thead className="bg-base-200 text-secondary">
+              <thead className="bg-secondary/5 text-secondary">
                 <tr>
                   <th>#</th>
                   <th>Name</th>
@@ -109,7 +109,10 @@ const FundingPage = () => {
               </thead>
               <tbody>
                 {funds.map((fund, index) => (
-                  <tr key={fund._id} className="hover:bg-base-200 transition">
+                  <tr
+                    key={fund._id}
+                    className="hover:bg-secondary/5 transition"
+                  >
                     <td>{(currentPage - 1) * itemPerPage + index + 1}</td>
                     <td>{fund.donorName || "Anonymous"}</td>
                     <td>${fund.fundAmount}</td>

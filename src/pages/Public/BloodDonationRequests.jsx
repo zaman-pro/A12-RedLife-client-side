@@ -44,7 +44,7 @@ const BloodDonationRequests = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="mx-auto space-y-6 mb-12">
       <SectionHeader title="Blood Donation Requests" />
 
       {/* Sort Filter */}
@@ -57,7 +57,7 @@ const BloodDonationRequests = () => {
       {/* Requests Table */}
       <div className="overflow-x-auto bg-base-100 shadow rounded-lg">
         <table className="table w-full text-sm">
-          <thead className="bg-base-200 text-secondary">
+          <thead className="bg-secondary/5 text-secondary">
             <tr>
               <th>#</th>
               <th>Recipient</th>
@@ -89,7 +89,7 @@ const BloodDonationRequests = () => {
               </tr>
             ) : (
               requests.map((req, idx) => (
-                <tr key={req._id} className="hover:bg-secondary/20 transition">
+                <tr key={req._id} className="hover:bg-secondary/5 transition">
                   <td>{idx + 1}</td>
                   <td>{req.recipientName}</td>
                   <td>
