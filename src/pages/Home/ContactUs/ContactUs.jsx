@@ -30,9 +30,9 @@ const ContactUs = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="flex justify-between gap-8 flex-col md:flex-row">
         {/* Contact Form */}
-        <div className="bg-base-200 shadow-xl p-3 md:p-6 rounded-lg hover:shadow-lg hover:shadow-accent transition-shadow duration-300">
+        <div className="p-3 md:p-6 md:w-1/2">
           <h3 className="text-2xl font-semibold mb-6 text-center">
             Write to Us
           </h3>
@@ -75,14 +75,18 @@ const ContactUs = () => {
             </button>
           </form>
         </div>
+        {/* divider */}
+        <div className="divider divider-horizontal divider-secondary hidden md:flex"></div>
 
         {/* Contact Information */}
-        <div className="flex flex-col justify-start items-center bg-base-200 shadow-xl p-6 rounded-lg hover:shadow-lg hover:shadow-accent transition-shadow duration-300">
+        <div className="flex flex-col items-center p-6 md:w-1/2">
           <div>
-            <h3 className="text-2xl font-semibold mb-6">Connect With Us</h3>
+            <h3 className="text-2xl text-center font-semibold mb-6">
+              Connect With Us
+            </h3>
 
             {/* Phone */}
-            <div className="flex items-center mb-4 p-3 rounded-md transition-all duration-300 ease-in-out group">
+            <div className="flex items-center p-3 transition-all duration-300 ease-in-out group">
               <div className="shrink-0 min-w-[1.5rem] h-6 mr-4 flex items-center justify-center transition-transform duration-300 ease-in-out group-hover:scale-110">
                 <FiPhone className="w-full h-full" />
               </div>
@@ -90,7 +94,7 @@ const ContactUs = () => {
             </div>
 
             {/* Email */}
-            <div className="flex items-center mb-4 p-3 rounded-md transition-all duration-300 ease-in-out group">
+            <div className="flex items-center p-3 transition-all duration-300 ease-in-out group">
               <div className="shrink-0 min-w-[1.5rem] h-6 mr-4 flex items-center justify-center transition-transform duration-300 ease-in-out group-hover:scale-110">
                 <FiMail className="w-full h-full" />
               </div>
@@ -98,7 +102,7 @@ const ContactUs = () => {
             </div>
 
             {/* Address */}
-            <div className="flex items-center p-3 rounded-md transition-all duration-300 ease-in-out group">
+            <div className="flex items-center p-3 transition-all duration-300 ease-in-out group">
               <div className="shrink-0 min-w-[1.5rem] h-6 mr-4 flex items-center justify-center transition-transform duration-300 ease-in-out group-hover:scale-110">
                 <FiMapPin className="w-full h-full" />
               </div>

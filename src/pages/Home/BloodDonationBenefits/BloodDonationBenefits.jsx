@@ -94,7 +94,7 @@ const BloodDonationBenefits = () => {
 
       {/* Emotional Uplift Section */}
       <div className="flex flex-col md:flex-row gap-8 items-center">
-        <div className="md:w-1/2 order-1 md:order-2">
+        <div className="md:w-1/2 order-1 md:order-2 flex justify-end">
           <img
             className="w-md"
             src={benefit2}
