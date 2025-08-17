@@ -22,11 +22,13 @@ import BlogDetails from "../pages/Public/BlogDetails";
 import DonationRequestEdit from "../pages/Dashboard/DonationRequestEdit";
 import FundingPage from "../pages/Funding/FundingPage";
 import AboutPage from "../pages/Public/AboutPage";
+import ErrorPage from "../pages/Error/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
