@@ -4,7 +4,7 @@ RedLife is a full-featured blood donation management platform that helps bridge 
 
 ## 🌐 Live Website
 
-🔗 [RedLife Live Site](https://b11a12-redlife-zaman-pro.netlify.app)
+🔗 [RedLife Live Site](https://redlife-zaman-pro.netlify.app)
 
 ## 👤 Admin Credentials
 
