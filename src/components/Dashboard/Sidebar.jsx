@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { GrLogout } from "react-icons/gr";
 import { FaBars, FaUsers, FaTasks } from "react-icons/fa";
 import {
   MdOutlineDashboardCustomize,
@@ -40,7 +39,7 @@ const Sidebar = () => {
   return (
     <aside>
       {/* Mobile Header */}
-      <div className="bg-base-100 text-black flex justify-between md:hidden">
+      <div className="bg-base-100 flex justify-between md:hidden">
         <div className="block cursor-pointer p-4 font-bold">
           <Link to="/" className="btn btn-ghost text-xl">
             <img
@@ -72,12 +71,12 @@ const Sidebar = () => {
           {/* Menu Items */}
           <div className="flex flex-col justify-between flex-1 mt-6">
             <ul className="space-y-3">
-              <li className="bg-gradient-to-r from-blue-100 via-blue-50 to-blue-100 rounded-lg hover:shadow-md transition-all">
+              <li className="rounded-lg hover:shadow-md hover:shadow-accent/10 transition-all">
                 <NavLink
                   to="overview"
                   className={({ isActive }) =>
                     `flex items-center px-2 py-2 ${
-                      isActive ? "text-secondary" : "text-black"
+                      isActive && "text-secondary"
                     }`
                   }
                 >
@@ -86,12 +85,12 @@ const Sidebar = () => {
                 </NavLink>
               </li>
 
-              <li className="bg-gradient-to-r from-blue-100 via-blue-50 to-blue-100 rounded-lg hover:shadow-md transition-all">
+              <li className="rounded-lg hover:shadow-md hover:shadow-accent/10 transition-all">
                 <NavLink
                   to="profile"
                   className={({ isActive }) =>
                     `flex items-center px-2 py-2 ${
-                      isActive ? "text-secondary" : "text-black"
+                      isActive && "text-secondary"
                     }`
                   }
                 >
@@ -100,12 +99,12 @@ const Sidebar = () => {
                 </NavLink>
               </li>
 
-              <li className="bg-gradient-to-r from-blue-100 via-blue-50 to-blue-100 rounded-lg hover:shadow-md transition-all">
+              <li className="rounded-lg hover:shadow-md hover:shadow-accent/10 transition-all">
                 <NavLink
                   to="my-donation-requests"
                   className={({ isActive }) =>
                     `flex items-center px-2 py-2 ${
-                      isActive ? "text-secondary" : "text-black"
+                      isActive && "text-secondary"
                     }`
                   }
                 >
@@ -114,12 +113,12 @@ const Sidebar = () => {
                 </NavLink>
               </li>
 
-              <li className="bg-gradient-to-r from-blue-100 via-blue-50 to-blue-100 rounded-lg hover:shadow-md transition-all">
+              <li className="rounded-lg hover:shadow-md hover:shadow-accent/10 transition-all">
                 <NavLink
                   to="create-donation-request"
                   className={({ isActive }) =>
                     `flex items-center px-2 py-2 ${
-                      isActive ? "text-secondary" : "text-black"
+                      isActive && "text-secondary"
                     }`
                   }
                 >
@@ -129,12 +128,12 @@ const Sidebar = () => {
               </li>
 
               {role === "admin" && (
-                <li className="bg-gradient-to-r from-blue-100 via-blue-50 to-blue-100 rounded-lg hover:shadow-md transition-all">
+                <li className="rounded-lg hover:shadow-md hover:shadow-accent/10 transition-all">
                   <NavLink
                     to="all-users"
                     className={({ isActive }) =>
                       `flex items-center px-2 py-2 ${
-                        isActive ? "text-secondary" : "text-black"
+                        isActive && "text-secondary"
                       }`
                     }
                   >
@@ -145,12 +144,12 @@ const Sidebar = () => {
               )}
 
               {(role === "admin" || role === "volunteer") && (
-                <li className="bg-gradient-to-r from-blue-100 via-blue-50 to-blue-100 rounded-lg hover:shadow-md transition-all">
+                <li className="rounded-lg hover:shadow-md hover:shadow-accent/10 transition-all">
                   <NavLink
                     to="all-blood-donation-request"
                     className={({ isActive }) =>
                       `flex items-center px-2 py-2 ${
-                        isActive ? "text-secondary" : "text-black"
+                        isActive && "text-secondary"
                       }`
                     }
                   >
@@ -161,12 +160,12 @@ const Sidebar = () => {
               )}
 
               {(role === "admin" || role === "volunteer") && (
-                <li className="bg-gradient-to-r from-blue-100 via-blue-50 to-blue-100 rounded-lg hover:shadow-md transition-all">
+                <li className="rounded-lg hover:shadow-md hover:shadow-accent/10 transition-all">
                   <NavLink
                     to="content-management"
                     className={({ isActive }) =>
                       `flex items-center px-2 py-2 ${
-                        isActive ? "text-secondary" : "text-black"
+                        isActive && "text-secondary"
                       }`
                     }
                   >
@@ -177,11 +176,8 @@ const Sidebar = () => {
               )}
 
               {/* Mobile Logout */}
-              <li
-                className="bg-gradient-to-r from-red-500/10 to-pink-500/10 rounded-lg hover:shadow-md transition-all block md:hidden"
-                onClick={handleLogout}
-              >
-                <div className="flex items-center px-2 py-2 text-red-500 hover:text-red-600 cursor-pointer">
+              <li className="rounded-lg block md:hidden" onClick={handleLogout}>
+                <div className="flex items-center px-2 py-2 border border-secondary/50 rounded">
                   <IoExitOutline className="mr-3 text-xl" />
                   <span className="font-medium">Logout</span>
                 </div>
@@ -194,7 +190,7 @@ const Sidebar = () => {
         <div className="hidden md:block">
           <button
             onClick={handleLogout}
-            className="w-full flex items-center px-2 py-2 mt-2 rounded-lg bg-gradient-to-r from-red-500/10 to-pink-500/10 hover:shadow-md text-red-500 hover:text-red-600 transition-all"
+            className="w-full flex items-center px-2 py-2 mt-2 rounded-lg bg-gradient-to-r from-secondary/5 to-accent/5 hover:text-secondary"
           >
             <IoExitOutline className="mr-3 text-xl" />
             <span className="font-medium">Logout</span>

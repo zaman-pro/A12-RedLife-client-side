@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, Navigate } from "react-router";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
@@ -10,6 +10,8 @@ import PaginationControls from "../../../components/Dashboard/PaginationControls
 import useRole from "../../../hooks/useRole";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Loading from "../../../components/Shared/Loading/Loading";
+import { FaArrowLeft } from "react-icons/fa";
+import SectionHeader from "../../../components/Shared/SectionHeader/SectionHeader";
 
 const ContentManagement = () => {
   const [filter, setFilter] = useState("");
@@ -83,8 +85,16 @@ const ContentManagement = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto">
-      <h1 className="text-4xl font-bold text-center">Content Management</h1>
+    <div className="space-y-6 mx-auto p-6">
+      <button
+        className="btn btn-secondary btn-sm btn-outline flex items-center"
+        onClick={() => Navigate(-1)}
+      >
+        <FaArrowLeft className="mr-2" /> Back
+      </button>
+
+      <SectionHeader title="Content Management" />
+
       <div className="flex justify-end">
         <Link to="add-blog" className="btn bg-secondary text-white text-lg">
           Add Blog

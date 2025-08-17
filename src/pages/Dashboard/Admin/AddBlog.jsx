@@ -10,6 +10,9 @@ import StatusFilter from "../../../components/Dashboard/StatusFilter";
 import BlogGrid from "../../../components/Dashboard/Admin/BlogGrid";
 import PaginationControls from "../../../components/Dashboard/PaginationControls";
 import Loading from "../../../components/Shared/Loading/Loading";
+import { Navigate } from "react-router";
+import { FaArrowLeft } from "react-icons/fa";
+import SectionHeader from "../../../components/Shared/SectionHeader/SectionHeader";
 
 const AddBlog = () => {
   const [title, setTitle] = useState("");
@@ -124,8 +127,15 @@ const AddBlog = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto">
-      <h1 className="text-4xl font-bold text-center">Add Blog</h1>
+    <div className="space-y-6 mx-auto p-6">
+      <button
+        className="btn btn-secondary btn-sm btn-outline flex items-center"
+        onClick={() => Navigate(-1)}
+      >
+        <FaArrowLeft className="mr-2" /> Back
+      </button>
+
+      <SectionHeader title="Add Blog" />
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <input

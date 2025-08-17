@@ -96,7 +96,7 @@ const UserRow = ({ index, user, onStatusChange, onRoleChange }) => {
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <tr className="hover:bg-base-300 transition-colors duration-300">
+    <tr className="hover:bg-secondary/5 transition-colors duration-300">
       <td>{index + 1}</td>
       <td>
         <img

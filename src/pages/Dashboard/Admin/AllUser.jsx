@@ -7,6 +7,9 @@ import Loading from "../../../components/Shared/Loading/Loading";
 import PaginationControls from "../../../components/Dashboard/PaginationControls";
 import StatusFilter from "../../../components/Dashboard/StatusFilter";
 import UserRow from "../../../components/Dashboard/Admin/UserRow";
+import { Navigate } from "react-router";
+import { FaArrowLeft } from "react-icons/fa";
+import SectionHeader from "../../../components/Shared/SectionHeader/SectionHeader";
 
 const AllUser = () => {
   const axiosSecure = useAxiosSecure();
@@ -74,8 +77,15 @@ const AllUser = () => {
   if (isLoading || isCountLoading) return <Loading />;
 
   return (
-    <section className="p-6 space-y-6 max-w-7xl mx-auto">
-      <h1 className="text-4xl font-bold text-center">All Users</h1>
+    <div className="space-y-6 mx-auto p-6">
+      <button
+        className="btn btn-secondary btn-sm btn-outline flex items-center"
+        onClick={() => Navigate(-1)}
+      >
+        <FaArrowLeft className="mr-2" /> Back
+      </button>
+
+      <SectionHeader title="All Users" />
 
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">
         <StatusFilter filter={filter} onChange={setFilter} filterType="user" />
@@ -103,8 +113,8 @@ const AllUser = () => {
         </div>
       ) : (
         <div className="overflow-x-auto rounded-lg shadow">
-          <table className="table w-full text-sm">
-            <thead className="bg-base-200 text-base">
+          <table className="table w-full">
+            <thead className="bg-secondary/5 text-secondary">
               <tr>
                 <th>#</th>
                 <th>Avatar</th>
@@ -129,7 +139,7 @@ const AllUser = () => {
           </table>
         </div>
       )}
-    </section>
+    </div>
   );
 };
 

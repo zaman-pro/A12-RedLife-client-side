@@ -3,7 +3,7 @@ import { FaTrash, FaUpload, FaEyeSlash } from "react-icons/fa";
 
 const BlogCard = ({ blog, role, onStatusChange, onDelete }) => {
   return (
-    <div className="card shadow-lg bg-base-100 p-4 hover:shadow-lg hover:shadow-accent transition-shadow duration-300">
+    <div className="card shadow-lg bg-gradient-to-r from-secondary/5 to-accent/5 p-4 hover:shadow-lg hover:shadow-accent/50 transition-shadow duration-300">
       <figure className="mb-4">
         <img
           src={blog.thumbnail}

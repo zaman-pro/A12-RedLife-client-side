@@ -4,7 +4,7 @@ import BlogCard from "./BlogCard";
 const BlogGrid = ({ blogs, role, onStatusChange, onDelete }) => {
   if (!blogs?.length) {
     return (
-      <div className="text-center py-10 text-gray-500">
+      <div className="text-center py-10">
         <h2 className="text-lg">No blogs found.</h2>
       </div>
     );

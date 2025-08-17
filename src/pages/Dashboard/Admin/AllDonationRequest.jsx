@@ -10,6 +10,9 @@ import PaginationControls from "../../../components/Dashboard/PaginationControls
 import DonationTable from "../../../components/Dashboard/DonationTable";
 import useRole from "../../../hooks/useRole";
 import useAuth from "../../../hooks/useAuth";
+import SectionHeader from "../../../components/Shared/SectionHeader/SectionHeader";
+import { Navigate } from "react-router";
+import { FaArrowLeft } from "react-icons/fa";
 
 const AllDonationRequests = () => {
   const axiosPublic = useAxiosPublic();
@@ -121,8 +124,15 @@ const AllDonationRequests = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto">
-      <h1 className="text-4xl font-bold text-center">All Donation Requests</h1>
+    <div className="space-y-6 mx-auto p-6">
+      <button
+        className="btn btn-secondary btn-sm btn-outline flex items-center"
+        onClick={() => Navigate(-1)}
+      >
+        <FaArrowLeft className="mr-2" /> Back
+      </button>
+
+      <SectionHeader title="All Donation Requests" />
 
       {/* Filter + Pagination Controls */}
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">

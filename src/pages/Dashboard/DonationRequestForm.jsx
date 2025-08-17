@@ -96,16 +96,16 @@ const DonationRequestForm = ({ isEdit = false }) => {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <div className="w-full bg-base-100 shadow-lg rounded-lg p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="flex justify-center items-center">
+      <div className="w-full bg-base-100 shadow-lg rounded-lg p-6 space-y-6 mx-auto">
         <button
-          className="btn btn-sm btn-outline flex items-center"
+          className="btn btn-secondary btn-sm btn-outline flex items-center"
           onClick={() => navigate(-1)}
         >
           <FaArrowLeft className="mr-2" /> Back
         </button>
 
-        <h2 className="text-2xl md:text-4xl font-bold text-center mb-6">
+        <h2 className="text-2xl md:text-4xl font-bold text-center text-secondary mb-6">
           {isEdit ? "Edit Donation Request" : "Create Donation Request"}
         </h2>
 
@@ -114,7 +114,6 @@ const DonationRequestForm = ({ isEdit = false }) => {
           className="grid grid-cols-1 md:grid-cols-2 gap-4"
         >
           {/* Form Fields */}
-
           <div className="space-y-2">
             <label className="label">Recipient Name</label>
             <input

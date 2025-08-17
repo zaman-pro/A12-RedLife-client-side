@@ -44,19 +44,19 @@ const DashboardHomeAdmin = () => {
     );
 
   return (
-    <div className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 mx-auto p-6">
       {/* Welcome Section - Mobile First */}
-      <div className="bg-gradient-to-r from-base-100 to-blue-100 p-4 sm:p-6 rounded-xl md:rounded-2xl shadow-md text-center">
-        <h1 className="text-2xl sm:text-3xl font-bold mb-2">
+      <div className="bg-gradient-to-r from-secondary/5 to-accent/5 p-4 sm:p-6 rounded-xl md:rounded-2xl shadow-md text-center">
+        <h1 className="text-2xl md:text-4xl font-bold mb-2">
           Welcome to Your Dashboard
         </h1>
-        <p className="sm:text-lg text-gray-700 font-bold">
+        <p className="sm:text-lg font-bold">
           <span
             className={`capitalize font-bold ${
               role === "admin"
-                ? "text-red-500"
+                ? "text-secondary"
                 : role === "volunteer"
-                ? "text-green-500"
+                ? "text-[#92E3A9]"
                 : "text-gray-700"
             }`}
           >
@@ -64,7 +64,7 @@ const DashboardHomeAdmin = () => {
           </span>{" "}
           : {user?.displayName}
         </p>
-        <p className="mt-1 text-xs sm:text-sm text-gray-600">
+        <p className="mt-1 text-sm">
           Real-time oversight of all RedLife activities
         </p>
       </div>
@@ -75,19 +75,19 @@ const DashboardHomeAdmin = () => {
           icon={FaUsers}
           title="Total Donors"
           value={stats.totalUsers}
-          color="blue-500"
+          // color="blue-500"
         />
         <StatCard
           icon={FaHandHoldingHeart}
           title="Total Funding"
           value={`$${Number(stats.totalFunding).toLocaleString()}`}
-          color="green-500"
+          // color="green-500"
         />
         <StatCard
           icon={FaTint}
           title="Blood Requests"
           value={stats.totalBloodRequests}
-          color="red-500"
+          // color="red-500"
         />
       </div>
     </div>

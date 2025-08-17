@@ -104,8 +104,8 @@ const DashboardProfile = () => {
   if (loading || !user) return <Loading />;
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <div className="w-full max-w-7xl p-6 bg-base-100 shadow-lg rounded-lg">
+    <div className="flex justify-center items-center min-h-[90vh]">
+      <div className="w-full p-6 bg-gradient-to-r from-secondary/5 to-accent/5 rounded-lg">
         <div className="flex justify-end mb-4">
           <button
             onClick={
@@ -144,9 +144,9 @@ const DashboardProfile = () => {
 
           {/* Role below avatar */}
           <p
-            className={`capitalize text-xl font-bold mt-3 ${
+            className={`capitalize text-2xl font-bold mt-3 ${
               role === "admin"
-                ? "text-red-500"
+                ? "text-secondary"
                 : role === "volunteer"
                 ? "text-green-500"
                 : "text-gray-700"
@@ -159,12 +159,14 @@ const DashboardProfile = () => {
         <form className="mt-6 space-y-4">
           {/* Name */}
           <div>
-            <label className="label mb-2">Name</label>
+            <label className="label mb-2 text-secondary font-medium">
+              Name
+            </label>
             <input
               type="text"
               {...register("name", { required: "Name is required" })}
               readOnly={!isEditing}
-              className="input w-full focus:outline-none"
+              className="input w-full focus:outline-none border-secondary/20"
             />
             {errors.name && (
               <p className="text-red-500 text-xs">{errors.name.message}</p>
@@ -173,25 +175,29 @@ const DashboardProfile = () => {
 
           {/* Email */}
           <div>
-            <label className="label mb-2">Email</label>
+            <label className="label mb-2 text-secondary font-medium">
+              Email
+            </label>
             <input
               type="email"
               value={user.email}
               readOnly
-              className="input w-full focus:outline-none"
+              className="input w-full focus:outline-none border-secondary/20"
             />
           </div>
 
           {/* Blood Group & Phone */}
           <div className="flex flex-col lg:flex-row gap-6">
             <div className="w-full">
-              <label className="label mb-2">Blood Group</label>
+              <label className="label mb-2 text-secondary font-medium">
+                Blood Group
+              </label>
               <select
                 {...register("bloodGroup", {
                   required: "Blood group is required",
                 })}
                 disabled={!isEditing}
-                className="select select-bordered w-full focus:outline-none"
+                className="select select-bordered w-full focus:outline-none border-secondary/20"
               >
                 <option value="">Select</option>
                 {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map(
@@ -209,7 +215,9 @@ const DashboardProfile = () => {
               )}
             </div>
             <div className="w-full">
-              <label className="label mb-2">Phone</label>
+              <label className="label mb-2 text-secondary font-medium">
+                Phone
+              </label>
               <input
                 type="text"
                 {...register("phone", {
@@ -219,7 +227,7 @@ const DashboardProfile = () => {
                   },
                 })}
                 disabled={!isEditing}
-                className="input w-full focus:outline-none"
+                className="input w-full focus:outline-none border-secondary/20"
               />
               {errors.phone && (
                 <p className="text-red-500 text-xs">{errors.phone.message}</p>
@@ -230,11 +238,13 @@ const DashboardProfile = () => {
           {/* District & Upazila */}
           <div className="flex flex-col lg:flex-row gap-6">
             <div className="w-full">
-              <label className="label mb-2">District</label>
+              <label className="label mb-2 text-secondary font-medium">
+                District
+              </label>
               <select
                 {...register("district", { required: "District is required" })}
                 disabled={!isEditing}
-                className="select select-bordered w-full focus:outline-none"
+                className="select select-bordered w-full focus:outline-none border-secondary/20"
               >
                 <option value="">Select District</option>
                 {districts.map((d) => (
@@ -251,11 +261,13 @@ const DashboardProfile = () => {
             </div>
 
             <div className="w-full">
-              <label className="label mb-2">Upazila</label>
+              <label className="label mb-2 text-secondary font-medium">
+                Upazila
+              </label>
               <select
                 {...register("upazila", { required: "Upazila is required" })}
                 disabled={!isEditing || !selectedDistrict}
-                className="select select-bordered w-full focus:outline-none"
+                className="select select-bordered w-full focus:outline-none border-secondary/20"
               >
                 {!selectedDistrict ? (
                   <option value="">Select a district first</option>

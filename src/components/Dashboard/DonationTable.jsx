@@ -13,8 +13,8 @@ const DonationTable = ({
 
   return (
     <div className="overflow-x-auto rounded-lg shadow">
-      <table className="table w-full text-sm">
-        <thead className="bg-base-200 text-base">
+      <table className="table w-full">
+        <thead className="bg-secondary/5 text-secondary">
           <tr>
             <th>#</th>
             <th>Recipient</th>
@@ -36,7 +36,7 @@ const DonationTable = ({
             return (
               <tr
                 key={req._id}
-                className="hover:bg-base-300 transition-colors duration-300"
+                className="hover:bg-secondary/5 transition-colors duration-300"
               >
                 <td>{idx + 1}</td>
                 <td>{req.recipientName}</td>
