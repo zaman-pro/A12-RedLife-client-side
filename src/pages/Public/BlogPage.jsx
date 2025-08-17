@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../components/Shared/Loading/Loading";
+import SectionHeader from "../../components/Shared/SectionHeader/SectionHeader";
 
 const BlogPage = () => {
   const axiosPublic = useAxiosPublic();
@@ -30,12 +31,10 @@ const BlogPage = () => {
 
   return (
     <div className="py-6 max-w-7xl mx-auto px-4">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-2">Our Blog</h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Read our blog to uncover the life-saving impact of blood donation.
-        </p>
-      </div>
+      <SectionHeader
+        title="Our Blog"
+        subtitle="  Read our blog to uncover the life-saving impact of blood donation."
+      />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {blogs.map((blog) => (
@@ -48,7 +47,7 @@ const BlogPage = () => {
 
 // will extract to a component
 const BlogCardPublic = ({ blog }) => (
-  <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full hover:shadow-accent ">
+  <div className="bg-base-200 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full hover:shadow-accent ">
     {blog.thumbnail && (
       <img
         src={blog.thumbnail}

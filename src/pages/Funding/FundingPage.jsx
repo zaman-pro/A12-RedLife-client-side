@@ -51,7 +51,7 @@ const FundingPage = () => {
 
   return (
     <div className="p-6 space-y-8">
-      <h2 className="text-3xl font-bold text-center">
+      <h2 className="text-4xl font-bold text-center text-secondary">
         {isLoading
           ? "Donate for a Cause"
           : funds.length === 0
@@ -87,7 +87,7 @@ const FundingPage = () => {
             Donation History
           </div>
 
-          <div className="pt-6">
+          <div className="py-6">
             <PaginationControls
               itemPerPage={itemPerPage}
               setItemPerPage={setItemPerPage}
@@ -99,7 +99,7 @@ const FundingPage = () => {
 
           <div className="overflow-x-auto">
             <table className="table w-full">
-              <thead>
+              <thead className="bg-base-200 text-secondary">
                 <tr>
                   <th>#</th>
                   <th>Name</th>

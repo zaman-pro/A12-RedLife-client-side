@@ -5,6 +5,7 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 import useGeoData from "../../hooks/useGeoData";
 import StatusFilter from "../../components/Dashboard/StatusFilter";
 import Loading from "../../components/Shared/Loading/Loading";
+import SectionHeader from "../../components/Shared/SectionHeader/SectionHeader";
 
 const BloodDonationRequests = () => {
   const [filter, setFilter] = useState("");
@@ -43,10 +44,8 @@ const BloodDonationRequests = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
-      <h1 className="text-3xl font-bold text-center">
-        Blood Donation Requests
-      </h1>
+    <div className="max-w-7xl mx-auto space-y-6">
+      <SectionHeader title="Blood Donation Requests" />
 
       {/* Sort Filter */}
       <StatusFilter
@@ -58,7 +57,7 @@ const BloodDonationRequests = () => {
       {/* Requests Table */}
       <div className="overflow-x-auto bg-base-100 shadow rounded-lg">
         <table className="table w-full text-sm">
-          <thead className="bg-base-200 text-base">
+          <thead className="bg-base-200 text-secondary">
             <tr>
               <th>#</th>
               <th>Recipient</th>
