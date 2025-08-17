@@ -129,7 +129,7 @@ const Navbar = () => {
   if (loading) return <Loading />;
 
   return (
-    <div className="navbar h-16 bg-base-100 fixed z-50 top-0 left-1/2 -translate-x-1/2 rounded-md px-4 lg:px-5 max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-2">
+    <div className="navbar h-16 bg-base-100/80 fixed z-50 top-0 left-1/2 -translate-x-1/2 rounded-md px-4 lg:px-5 max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-2 backdrop-blur-md">
       <div className="navbar-start">
         <div className="relative md:hidden" ref={menuRef}>
           <button
