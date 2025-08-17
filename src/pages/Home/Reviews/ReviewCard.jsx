@@ -6,7 +6,7 @@ const ReviewCard = ({ review }) => {
   const stars = Array.from({ length: 5 }, (_, i) => i < review?.rating);
 
   return (
-    <div className="bg-base-100 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+    <div className="bg-base-100 p-6 rounded-lg shadow-md">
       <FaQuoteLeft className="text-secondary text-2xl mb-3" />
       <p className="mb-4 italic">"{review?.quote}"</p>
       <div className="flex mb-3">
