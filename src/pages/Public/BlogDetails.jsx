@@ -32,7 +32,7 @@ function BlogDetails() {
       <div className="text-center py-20">
         <h2 className="text-2xl font-bold">Blog post not found</h2>
         <button
-          className="btn btn-sm btn-outline flex items-center border"
+          className="btn btn-secondary btn-sm btn-outline flex items-center border"
           onClick={() => navigate("/blog")}
         >
           <FaArrowLeft className="mr-2" /> Back
@@ -42,15 +42,15 @@ function BlogDetails() {
   }
 
   return (
-    <div className="p-6 space-y-6 max-w-4xl mx-auto">
+    <div className="space-y-6 max-w-4xl mx-auto">
       <button
-        className="btn btn-sm btn-outline flex items-center border"
+        className="btn btn-secondary btn-sm btn-outline flex items-center border"
         onClick={() => navigate(-1)}
       >
         <FaArrowLeft className="mr-2" /> Back
       </button>
 
-      <article className="rounded-xl shadow-md overflow-hidden">
+      <article className="rounded-xl shadow-md overflow-hidden bg-gradient-to-r from-secondary/5 to-accent/5">
         {blog.thumbnail && (
           <img
             src={blog.thumbnail}
@@ -62,7 +62,9 @@ function BlogDetails() {
 
         <div className="p-6 md:p-8">
           <header className="mb-6">
-            <h1 className="text-3xl md:text-4xl font-bold">{blog.title}</h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-secondary">
+              {blog.title}
+            </h1>
             {blog.createdAt && (
               <p className="text-gray-500 mt-2">
                 Published on {new Date(blog.createdAt).toLocaleDateString()}

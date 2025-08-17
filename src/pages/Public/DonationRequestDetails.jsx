@@ -164,7 +164,7 @@ const DonationRequestDetails = () => {
       {donationStatus === "pending" && user?.email && (
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className=" bg-gradient-to-r from-secondary/5 to-accent/5  p-6 rounded-lg shadow space-y-4"
+          className="bg-gradient-to-r from-secondary/5 to-accent/5 p-6 rounded-lg shadow space-y-4"
         >
           <h2 className="text-lg font-semibold text-secondary">
             Confirm Donation
