@@ -28,7 +28,7 @@ const Auth = () => {
   }, [user, navigate, location.state]);
 
   return (
-    <div className="md:min-h-screen flex justify-center md:items-center">
+    <div className="md:min-h-screen flex justify-center md:items-center mb-12">
       <div className="relative rounded-lg w-full max-w-md shadow-md p-4 overflow-hidden min-h-[900px]">
         {/* tab toggle with sliding bg */}
         <div className="relative flex mb-6 bg-primary/20 rounded overflow-hidden">
